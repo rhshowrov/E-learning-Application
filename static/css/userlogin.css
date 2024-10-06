@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+}
+.main_container{
+  width: 100vw;
+  height:100vh; 
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.login_container{
+  width: 500px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  box-shadow:0px 0px 5px 5px rgb(234, 197, 243)  ;
+}
+.form_container{
+  display: flex;
+  flex-direction: column;
+  box-sizing: content-box;
+  margin: auto;
+}
+.form_container label{
+
+}

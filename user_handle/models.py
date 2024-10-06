@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import User
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -13,11 +13,11 @@ class UserProfile(models.Model):
     custom_id = models.IntegerField(
         unique=True,
         validators=[MinValueValidator(10000), MaxValueValidator(99999)],  # Ensure it's a 5-digit number
-        blank=False
+        blank=True
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     fullname = models.CharField(max_length=120, blank=True)
-    dob = models.DateField()
+    dob = models.DateField(blank=True,null=True)
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
     profile_type = models.CharField(max_length=7, choices=ProfileType.choices, default=ProfileType.STUDENT)
 
