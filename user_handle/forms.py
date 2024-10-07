@@ -8,11 +8,11 @@ class userLoginForm(AuthenticationForm):
   models=User
   fields=['username','password']
   widgets={
-    "username":forms.TextInput(attrs=({'class':'username','placeholder':"username"})),
-    "password":forms.PasswordInput(attrs=({'class':'password','placeholder':"password"}))
+    "username":forms.TextInput(attrs=({'class':'form_input','placeholder':"username"})),
+    "password":forms.PasswordInput(attrs=({'class':'form_input','placeholder':"password"}))
   }
   labels={
     'username':"Enter Your Username:",
-    "Password":"Enter Your Password:",
+    "password":"Enter Your Password:",
   }
 

@@ -1,6 +1,7 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,HttpResponseRedirect, get_object_or_404
 from .forms import userLoginForm
 from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse_lazy, reverse
 # Messages
 from django.contrib import messages
 
@@ -16,7 +17,8 @@ def userLogin(request):
       if user is not None:
         if user.user_profile.profile_type =="Student":
           login(request,user)
-          return HttpResponse("<h1>Your are s Student </h1>")
+          custom_id=user.user_profile.custom_id
+          return HttpResponseRedirect(reverse('student:stdHomePage',kwargs={'custom_id': custom_id}))
         elif user.user_profile.profile_type =="Teacher":
           login(request,user)
           return HttpResponse("<h1>Your are a Teacher </h1>")
@@ -27,9 +29,12 @@ def userLogin(request):
         messages.error(request, "Invalid username or password.")
     else:
       messages.error(request, "Invalid Input")
-      return HttpResponse("<h1>Invalid Inputk</h1>")
+      return HttpResponse("<h1>Invalid Input</h1>")
         
   else:
     return render(request,'user_handle/userlogin.html',context={'form':form})     
-  
-  
+
+
+ 
+
+    

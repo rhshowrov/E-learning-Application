@@ -20,4 +20,6 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('user_handle.urls')),
+    path('student/<int:custom_id>',include('student.urls')),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
