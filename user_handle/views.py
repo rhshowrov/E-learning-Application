@@ -15,9 +15,9 @@ def userLogin(request):
       password=form.cleaned_data.get("password")
       user=authenticate(username=username, password=password)
       if user is not None:
-        if hasattr(user, 'student'):
+        if hasattr(user, 'student_profile'):
           login(request,user)
-          student_id=user.student.student_id
+          student_id=user.student_profile.student_id
           return HttpResponseRedirect(reverse('student:stdHomePage',kwargs={'student_id': student_id}))
         if hasattr(user, 'teacher'):
           login(request,user)

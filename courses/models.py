@@ -5,5 +5,7 @@ class Course(models.Model):
   name=models.CharField(max_length=100,blank=False)
   code=models.CharField(max_length=10,blank=False)
   section=models.IntegerField(unique=True)
+  course_pic=models.ImageField(upload_to='course_thumbnail',blank=True)
   def __str__(self):
         return f"{self.name} - {self.code} (Section: {self.section})"
+
