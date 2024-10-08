@@ -2,11 +2,163 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  margin: 0;
+  border-radius: 5px;
+
 }
 .nav_container{
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100vh;
-  width: 20vw;
-  background-color: blue;
+  width: 15vw;
+  background-color:whitesmoke;
+  border-radius: 5px;
+}
+.user_info{
+  margin-top: 10px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+
+}
+.user_info h3{
+  color: rgb(0, 1, 1);
+  letter-spacing: 0.5px;
+  margin: 0px;
+  text-align: center;
+}
+.img_container{
+width: 100%;
+height: 200px;
+background-color: auto;
+display: flex;
+justify-content: center;
+border-radius: 15px;
+}
+.img_container img{
+  width: 200px;
+  height: 200px;
+  border-radius: 300px;
+  box-shadow: 0 0 10px 5px rgb(179, 239, 241) ;
+  margin-bottom: 5px;
+}
+.nav_actionbar{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    background-color: auto;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(241, 228, 239);
+    border-radius: 10px;
+    border:1px solid rgb(183, 247, 222);
+    box-shadow: 0 0 1px 1px rgb(183, 247, 222);
+    
+}
+.nav_actionbar a{
+  height: 30px;
+  background-color: none;
+  text-decoration: none;
+  font-size: larger;
+  font-weight: 500;
+  color: rgb(73, 16, 228);
+  border-bottom: 1px solid rgb(128, 138, 239);
+  margin: 5px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+.action_box{
+  height: 20px;
+  width: 100%;
+  background-color:auto;
+  text-align: end;
+}
+.nav_actionbar a:hover{
+  height: 40px;
+  font-weight: 800;
+  border-bottom: 3px solid rgb(59, 74, 240);
+}
+.main_container{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(229, 247, 247);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.course_container{
+  width: 98%;
+  height: 98%;
+  background-color: rgb(234, 230, 238);
+  border-radius: 10px;
+  
+}
+.course_container h1{
+  text-align: center;
+  font-size: xx-large;
+  font-weight: 800;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  
+}
+
+.card_container{
+  width: 98%;
+  height: 80%;
+  background-color:auto;
+  margin: 2px auto 2px auto;
+  border-radius: 10px;
+}
+.card{
+  width: 550px;
+  height: 250px;
+  background-color: #faf7f7ee;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.card_child_1{
+width: 100%;
+height: 200px;
+display: flex;
+flex-direction: row;
+
+}
+.card_child_1 img{
+  width: 290px;
+  height: 200px;
+  border-radius: 5px;
+}
+.card_child_1 h2,h3{
+  font-weight: 800;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-top: 0px;
+}
+.card_child_2{
+  width: 100%;
+  height: 50px;
+  background-color: aquamarine;
+}
+.course_info{
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+padding: 5px;
+}
+.course_info h3{
+  font-weight: 800;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-top: 2px;
+}
+.course_info a{
+  text-decoration: none;
+  color: black;
+  font-weight: 800;
+  font-size: x-large;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.course_info a:hover{
+  font-weight: 1000;
+  color: rgb(26, 26, 243);
 }

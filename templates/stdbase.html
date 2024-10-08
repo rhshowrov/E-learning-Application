@@ -13,12 +13,50 @@
 </head>
 <body>
   <div class="nav_container">
+    <div class="img_container">
+      <img src="/media/{{profile.profile_pic}}" alt="USer Photo">
+    </div>
+    <div class="user_info">
+    <h3>{{profile.fullname}}</h3>
+    <h3>{{profile.custom_id}}</h3>
+    </div>
+    <div class="nav_actionbar">
+       <a class='action_box' href="#">Your Courses</a>
+       <a class='action_box' href="#">Profile</a>
+       <a class='action_box' href="#">Question & Answer</a>
+       <a class='action_box' href="#">Chat</a>
+       <a class='action_box' href="#">Log Out</a>
 
+    </div>
   </div>
 
   {%block content%}
   <div class="main_container">
-   
+   <div class="course_container">
+    <h1>Your Courses:</h1>
+    <hr>
+    <div class="card_container">
+      <div class="card">
+
+        <div class="card_child_1">
+          <img src="{% static 'course.jpg'%}" alt="Course Photo">
+          <div class="course_info">
+            <a href="#">Learn C++ : The Advance Guide to programming knowledge</a>
+            <h3>CSE115</h3>
+            <h3>Instructor: Rakib</h3>
+
+
+          </div>
+        </div>
+
+        <div class="card_child_2">
+          
+        </div>
+      </div>
+
+    </div>
+
+   </div>
   </div>
   {%endblock%}
 </body>

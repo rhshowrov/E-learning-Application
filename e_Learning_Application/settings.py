@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "theme",
     'django_browser_reload',
     'student',
+    'courses',
 ]
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [

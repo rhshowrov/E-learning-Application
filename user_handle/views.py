@@ -15,11 +15,11 @@ def userLogin(request):
       password=form.cleaned_data.get("password")
       user=authenticate(username=username, password=password)
       if user is not None:
-        if user.user_profile.profile_type =="Student":
+        if hasattr(user, 'student'):
           login(request,user)
-          custom_id=user.user_profile.custom_id
-          return HttpResponseRedirect(reverse('student:stdHomePage',kwargs={'custom_id': custom_id}))
-        elif user.user_profile.profile_type =="Teacher":
+          student_id=user.student.student_id
+          return HttpResponseRedirect(reverse('student:stdHomePage',kwargs={'student_id': student_id}))
+        if hasattr(user, 'teacher'):
           login(request,user)
           return HttpResponse("<h1>Your are a Teacher </h1>")
         else:
