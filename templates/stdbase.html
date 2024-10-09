@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'css/stdbase.css'%}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   {% block extra_css %}
   {% endblock %}
   {%block title%}
@@ -36,24 +37,31 @@
     <h1>Your Courses:</h1>
     <hr>
     <div class="card_container">
+      {% for cd in course%}
       <div class="card">
-
         <div class="card_child_1">
-          <img src="{% static 'profile.student_enrollments.course.course_pic'%}" alt="Course Photo">
+          <img src="/media/{{cd.course_pic}}" alt="Course Photo">
           <div class="course_info">
-            <a href="#">Learn C++ : The Advance Guide to programming knowledge</a>
-            <h3>CSE115</h3>
-            <h3>Instructor: Rakib</h3>
-
-
+            <a href="#">{{cd.course_name}}</a>
+            <h3>{{cd.course_code}}.{{cd.course_section}}</h3>
+            <h3>Instructor: {{cd.course_instructor}}</h3>
           </div>
         </div>
 
-        <div class="card_child_2">
-          
+        <div class="card_child_2"> 
+          <span class="material-symbols-outlined rd">
+            assignment
+            </span>
+            <span class="material-symbols-outlined rd ">
+              quiz
+              </span>
+              <span class="material-symbols-outlined rd">
+                notifications
+                </span>
+                
         </div>
       </div>
-
+      {%endfor%}
     </div>
 
    </div>
