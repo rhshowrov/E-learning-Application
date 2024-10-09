@@ -141,7 +141,7 @@ MEDIA_URL = "/media/"
 # Expire the session when the user closes the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Set session timeout to 30 minutes (1800 seconds)
-SESSION_COOKIE_AGE = 650  # 30 minutes in seconds
+SESSION_COOKIE_AGE = 2000  # 30 minutes in seconds
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

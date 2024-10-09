@@ -4,8 +4,10 @@ from student.models import Student
 def stdHomePage(request,student_id):
   
   student=Student.objects.get(user=request.user)
-  print(f'Phtoo: {student.profile_pic}')
+  course=student.student_enrollments.all()
+  print(course[0].student)
   return render(request,'stdbase.html',context={
     "student_id":student_id,
     'profile':student,
+    'course':course,
   })
