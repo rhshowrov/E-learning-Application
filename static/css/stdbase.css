@@ -105,15 +105,18 @@ border-radius: 15px;
 
 .card_container{
   width: 98%;
-  height: 80%;
+  height: auto;
   background-color:auto;
   margin: 2px auto 2px auto;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
+  
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 .card{
-  width: 550px;
+  width: 400px;
   height: auto;
   background-color: #f7f7faee;
   border-radius: 10px;
@@ -122,15 +125,15 @@ border-radius: 15px;
   
 }
 .card_child_1{
-width: 100%;
+width: 400px;
 height: 200px;
 display: flex;
 flex-direction: row;
-border: 1px solid rgb(12, 220, 43);
+
 border-radius: 5px;
 }
 .card_child_1 img{
-  width: 290px;
+  width: 200px;
   height: 200px;
   border-radius: 5px;
 }
@@ -138,16 +141,17 @@ border-radius: 5px;
   font-weight: 800;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin-top: 0px;
+  font-size:medium ;
 }
 .card_child_2{
-  width: 100%;
-  height: auto;
-  background-color:auto;
+  width: 400px;
+  height: 40px;
+  background-color:rgb(250, 233, 233);
   display: flex;
   justify-content: flex-end;
   flex-direction: row;
   border-radius: 5px;
-  border: 1px solid rgb(12, 220, 43);
+  
   
 }
 .material-symbols-outlined.rd {
@@ -161,6 +165,7 @@ display: flex;
 flex-direction: column;
 justify-content: flex-start;
 padding: 5px;
+width: 260px;
 }
 .course_info h3{
   font-weight: 800;
