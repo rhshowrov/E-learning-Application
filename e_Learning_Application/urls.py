@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('user_handle.urls')),
     path('student/<int:student_id>',include('student.urls')),
+    path('teacher/<int:teacher_id>',include('teacher.urls')),
+    
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

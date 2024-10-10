@@ -29,7 +29,7 @@ def stdHomePage(request,student_id):
         'course_pic': course_pic,
         'course_instructor': course_instructor
     })
-    print(course_data)
+    
   return render(request,'stdbase.html',context={
     "student_id":student_id,
     'profile':student,

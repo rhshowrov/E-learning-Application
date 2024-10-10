@@ -26,7 +26,7 @@ class Teacher(models.Model):
     
     
 class TeacherEnrolled(models.Model):
-  course=models.ForeignKey(Course,on_delete=models.CASCADE)
+  course = models.OneToOneField(Course, on_delete=models.CASCADE)
   teacher=models.ForeignKey(Teacher,on_delete=models.CASCADE, related_name='teacher_enrollments')
   
   class Meta:

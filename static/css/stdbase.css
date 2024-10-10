@@ -36,8 +36,8 @@ justify-content: center;
 border-radius: 15px;
 }
 .img_container img{
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 300px;
   box-shadow: 0 0 10px 5px rgb(179, 239, 241) ;
   margin-bottom: 5px;
@@ -111,9 +111,9 @@ border-radius: 15px;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
-  
+  margin-bottom: 5px;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 .card{
   width: 400px;
@@ -122,7 +122,7 @@ border-radius: 15px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  
+  margin-bottom: 10px;
 }
 .card_child_1{
 width: 400px;

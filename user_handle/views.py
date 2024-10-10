@@ -19,9 +19,10 @@ def userLogin(request):
           login(request,user)
           student_id=user.student_profile.student_id
           return HttpResponseRedirect(reverse('student:stdHomePage',kwargs={'student_id': student_id}))
-        if hasattr(user, 'teacher'):
+        if hasattr(user, 'teacher_profile'):
           login(request,user)
-          return HttpResponse("<h1>Your are a Teacher </h1>")
+          teacher_id=user.teacher_profile.teacher_id
+          return HttpResponseRedirect(reverse('teacher:tchHomePage',kwargs={'teacher_id': teacher_id}))
         else:
           return HttpResponse("<h1>Your are Unauthorized </h1>")
       else:
@@ -34,7 +35,9 @@ def userLogin(request):
   else:
     return render(request,'user_handle/userlogin.html',context={'form':form})     
 
-
+def userLogout(request):
+  logout(request)
+  return HttpResponseRedirect(reverse('user_handle:userLogin'))
  
 
     

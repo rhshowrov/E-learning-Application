@@ -5,4 +5,4 @@ register = template.Library()
 
 @register.filter(name='range_filter')
 def range_filter(value):
-  return value[:50]+'....'
+  return value[:53]+'....'

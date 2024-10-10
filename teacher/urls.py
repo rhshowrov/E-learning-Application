@@ -1,16 +1,13 @@
 from django.urls import path,include
-from user_handle import views
+from django.contrib import admin
+from teacher import views
 from django.conf import settings
 from django.contrib.staticfiles.urls import static,staticfiles_urlpatterns
-app_name='user_handle'
+
+app_name='teacher'
+
 urlpatterns=[
-  
-  # path('signup/',views.create_user,name='signup'),
-  path('',views.userLogin,name='userLogin'),
-  path('logout/',views.userLogout ,name='userLogout'),
-  
-  # path('edit-profile/',views.editprofile ,name='edit_profile'),
-  
+  path('',views.tchHomePage,name='tchHomePage'),
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
