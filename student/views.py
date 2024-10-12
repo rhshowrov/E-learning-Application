@@ -14,6 +14,7 @@ def stdHomePage(request,student_id):
     course_code = course.code
     course_section = course.section
     course_pic = course.course_pic
+    course_id= course.id
     print(course_pic)
     # Get the teacher enrolled in this course
     try:
@@ -23,6 +24,7 @@ def stdHomePage(request,student_id):
     
     # Append course and instructor details to the list
     course_data.append({
+        'course_id': course_id,
         'course_name': course_name,
         'course_code': course_code,
         'course_section': course_section,
