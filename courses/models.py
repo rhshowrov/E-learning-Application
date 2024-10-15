@@ -12,6 +12,7 @@ class Course(models.Model):
 
 class CourseFile(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_files')
+    title = models.CharField(max_length=255,blank=False)
     file = models.FileField(upload_to='course_files/')
     date = models.DateField(auto_now_add=True)
 
@@ -24,6 +25,7 @@ class CourseQuiz(models.Model):
     title = models.CharField(max_length=30)
     total_marks = models.IntegerField()
     time = models.TimeField()  # For total time to complete the quiz
+    publish_status=models.BooleanField(default=False)
 
     def __str__(self):
         return f"Quiz: {self.title} for {self.course.name}"
