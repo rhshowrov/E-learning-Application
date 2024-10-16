@@ -16,3 +16,5 @@ def courseContent(request,pk):
     'course_files':course_files,
   })
   
+
+  

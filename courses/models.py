@@ -43,4 +43,23 @@ class QuizAnswer(models.Model):
     def __str__(self):
         return f"Question: {self.question_text} for {self.quiz.title}"
 
-  
+class CourseAssignment(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignment')
+    file = models.FileField(upload_to='course_files/assignments/', blank=True)
+    question_text = models.CharField(max_length=500)  # Fixing the redundant assignment
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Assignment for {self.course.code}.{self.course.section}"
+      
+class AssignmentUploadFile(models.Model):
+    assignment = models.ForeignKey(CourseAssignment, on_delete=models.CASCADE, related_name='assignment_upload_file')
+    def get_student(self):
+        from student.models import Student
+        student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='uploaded_assignment')  
+        return self.student  
+    file = models.FileField(upload_to='course_files/assignment_uploads/')  # Added file field for the uploaded assignment
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Assignment Uploaded by {self.student.student_id}"
