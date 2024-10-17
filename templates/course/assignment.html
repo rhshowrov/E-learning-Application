@@ -1,0 +1,45 @@
+{%extends 'course/courseDetails.html'%}
+{%load static%}
+
+{%block title%}
+  <title>Course AssignmentS</title>
+{%endblock%}
+
+{%block course_content%}
+{%if assignments%}
+{%for file in assignments%}
+<div class="flex filter drop-shadow-md flex-col m-3 w-11/12 mx-auto rounded-lg">
+  <div class="bg-white text-lg rounded font-semibold p-3">{{file.assignment_text}}</div>
+  <div class="bg-white text-xs rounded font-bold p-3">
+    Uploaded On:{{file.date}}
+  </div>
+  <div class="bg-white rounded p-3">
+    <!-- Display file icon based on file type -->
+    <a href="{{ file.file.url }}" download>
+      {% if file.is_pdf %}
+        <!-- PDF icon -->
+        <img src="{%static 'pdf.png'%}" alt="PDF Thumbnail" class="w-20 h-20 object-cover">
+        {% elif file.is_pptx %}
+        <!-- PPTX icon -->
+        <img src="{%static 'pptx.png'%}" alt="PPTX Thumbnail" class="w-20 h-20 object-cover">
+      {% else %}
+        <!-- Default file icon -->
+        <img src="{%static 'document.png'%}" alt="File Thumbnail" class="w-20 h-20 object-cover">
+      {% endif %}
+    </a>
+  
+    <!-- Display file name as a clickable download link -->
+    <div>
+      <a href="{{ file.file.url }}" download class="text-blue-500 underline">
+        Download: Assignment {{ file.assignment_number }}
+      </a>
+    </div>
+  </div>
+</div>
+{%endfor%}
+{%else%}
+<div class="bg-red-500 w-3/4 mx-auto rounded-md">
+  <h1 class="text-center p-3 text-white text-lg font-semibold">No Assignment Found!!!</h1>
+</div>
+{%endif%}
+{%endblock%}

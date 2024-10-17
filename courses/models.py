@@ -46,7 +46,8 @@ class QuizAnswer(models.Model):
 class CourseAssignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignment')
     file = models.FileField(upload_to='course_files/assignments/', blank=True)
-    question_text = models.CharField(max_length=500)  # Fixing the redundant assignment
+    assignment_text = models.TextField(default="No assignment Related text provided")  # Fixing the redundant assignment
+    assignment_number = models.IntegerField(default=1)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):

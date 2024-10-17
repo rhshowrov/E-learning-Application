@@ -8,6 +8,7 @@ app_name='courses'
 
 urlpatterns=[
   path('',views.courseContent,name='courseContent'),
+  path('assignments/',views.assignment,name="assignment"),
   
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
