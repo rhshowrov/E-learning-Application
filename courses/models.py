@@ -46,21 +46,33 @@ class QuizAnswer(models.Model):
 class CourseAssignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignment')
     file = models.FileField(upload_to='course_files/assignments/', blank=True)
-    assignment_text = models.TextField(default="No assignment Related text provided")  # Fixing the redundant assignment
+    assignment_text = models.TextField(default="No assignment Related text provided")
     assignment_number = models.IntegerField(default=1)
     date = models.DateField(auto_now_add=True)
+    
+    # New fields
+    due_date = models.DateTimeField()  # Add due date field
+    total_marks = models.PositiveIntegerField(default=0)  # Total marks for the assignment
 
     def __str__(self):
         return f"Assignment for {self.course.code}.{self.course.section}"
+
       
 class AssignmentUploadFile(models.Model):
     assignment = models.ForeignKey(CourseAssignment, on_delete=models.CASCADE, related_name='assignment_upload_file')
+
     def get_student(self):
         from student.models import Student
-        student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='uploaded_assignment')  
-        return self.student  
-    file = models.FileField(upload_to='course_files/assignment_uploads/')  # Added file field for the uploaded assignment
+        student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='uploaded_assignment')
+        return self.student
+    
+    file = models.FileField(upload_to='course_files/assignment_uploads/')
     date = models.DateField(auto_now_add=True)
+    
+    # New fields
+    upload_status = models.BooleanField(default=False)  # Tracks whether the assignment is uploaded
+    obtain_marks = models.PositiveIntegerField(default=0)  # Marks obtained for the assignment
+    submit_date = models.DateTimeField(auto_now_add=True)  # Records submission date and time
 
     def __str__(self):
         return f"Assignment Uploaded by {self.student.student_id}"
