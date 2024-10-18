@@ -8,8 +8,10 @@
 {%block course_content%}
 {%if assignments%}
 {%for file in assignments%}
-<div class="flex filter drop-shadow-md flex-col m-3 w-11/12 mx-auto rounded-lg">
-  <div class="bg-white text-lg rounded font-semibold p-3">{{file.assignment_text}}</div>
+<div class="grid grid-cols-4 gap-0">
+<div class="col-span-3">
+<div class="flex filter drop-shadow-md flex-col m-3 mr-0  rounded">
+  <div class="bg-white text-lg rounded font-normal p-3">{{file.assignment_text}}</div>
   <div class="bg-white text-xs rounded font-bold p-3">
     Uploaded On:{{file.date}}
   </div>
@@ -36,7 +38,25 @@
     </div>
   </div>
 </div>
+</div>
+<div class="col-span-1 bg-white m-3 ml-1 filter drop-shadow-md rounded-lg p-3 ">
+  <div class="text-center font-semibold">Assignment: {{file.assignment_number}}
+  </div>
+  <div>Total Marks:{{file.totat_marks}}</div>
+  <div>Assignment Status:Not Uploaded</div>
+  <div>Your Marks:0</div>
+  <button class="w-auto ml-24 p-1 border rounded-md bg-teal-400 h-auto font-semibold " type="submit">Upload</button>
+  <div class="text-red-600 text-left">Due Date:{{file.due_date}}</div>
+</div>
 {%endfor%}
+
+
+
+
+
+
+
+
 {%else%}
 <div class="bg-red-500 w-3/4 mx-auto rounded-md">
   <h1 class="text-center p-3 text-white text-lg font-semibold">No Assignment Found!!!</h1>
