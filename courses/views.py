@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import CourseFile,Course,CourseAssignment
 from django.shortcuts import get_object_or_404
+from .forms import AssignmentUploadForm
 # Create your views here.
 def courseContent(request,pk):
   course=get_object_or_404(Course, pk=pk)
@@ -25,9 +26,18 @@ def assignment(request, pk):
     # Filter assignments by the course
     assignments = CourseAssignment.objects.filter(course=course)
     print(assignments)
+    form=AssignmentUploadForm()
+    if request.method=="POST":
+      form=AssignmentUploadForm(data=request.POST,files=request.FILES)  # Include files for image upload)
+      if form.is_valid():
+        assignment=get_object_or_404(CourseAssignment, )
+        upload=form.save(commit=False)
+        
+        
     # Pass the course and assignments to the template
     return render(request, 'course/assignment.html', {
         'course': course,
-        'assignments': assignments
+        'assignments': assignments,
+        'form':form,
     })
   
