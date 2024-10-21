@@ -39,17 +39,33 @@
   </div>
 </div>
 </div>
+
 <div class="col-span-1 bg-white m-3 ml-1 filter drop-shadow-md rounded-lg p-3 ">
+  
+  {%for upload in file.assignment_upload_file.all%}
+  {%if upload.student == profile and upload.upload_status == True %}
+  <div class="text-center font-semibold my-1 ">Assignment: {{file.assignment_number}}
+  </div>
+  <div class="grid grid-cols-2"><div>
+    Total Marks: {{file.total_marks}}
+  </div>
+  <div >Your Marks: {{upload.obtain_marks}}</div>
+</div>
+<div class="my-2 flex items-center">
+  <span class="mr-2">Assignment Status:</span>
+  <h1 class="text-green-500 font-semibold w-auto p-1">Submitted</h1> 
+</div>
+  <div class="my-2 text-gree-300 font-semibold">Upload Date: {{upload.submit_date}}</div>
+  <div class="text-red-600 text-left my-2">Due Date: {{file.due_date}}</div>
+  {%else%}
   <div class="text-center font-semibold ">Assignment: {{file.assignment_number}}
   </div>
   <div class="grid grid-cols-2"><div>
-    Total Marks: {{file.totat_marks}}
+    Total Marks: {{file.total_marks}}
   </div>
-  <div >Your Marks: 0</div>
+  <div >Your Marks: {{file.obtain_marks}}</div>
 </div>
-  <div class="my-2">Assignment Status: Not Uploaded</div>
-  
-  <div class="my-2">Attempt Count: 0</div>
+  <div class="my-2">Assignment Status: Not Submitted!</div>
   <div class="text-red-600 text-left my-2">Due Date:{{file.due_date}}</div>
   <div><form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
@@ -63,6 +79,9 @@
       Upload File
     </button>
   </div>
+  {%endif%}
+  {%endfor%}
+  
     
   
 </div>

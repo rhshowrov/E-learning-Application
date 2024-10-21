@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .models import CourseFile,Course,CourseAssignment
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
 from .forms import AssignmentUploadForm
+from student.models import Student,StudentEnrolled
 # Create your views here.
 def courseContent(request,pk):
   course=get_object_or_404(Course, pk=pk)
@@ -19,25 +20,47 @@ def courseContent(request,pk):
   
 
 def assignment(request, pk):
-    # Use get_object_or_404 to retrieve the course
-    print(f"PK:{pk}")
+    # Retrieve the course using get_object_or_404
     course = get_object_or_404(Course, pk=pk)
     
     # Filter assignments by the course
     assignments = CourseAssignment.objects.filter(course=course)
-    print(assignments)
-    form=AssignmentUploadForm()
-    if request.method=="POST":
-      form=AssignmentUploadForm(data=request.POST,files=request.FILES)  # Include files for image upload)
-      if form.is_valid():
-        assignment=get_object_or_404(CourseAssignment, )
-        upload=form.save(commit=False)
-        
-        
-    # Pass the course and assignments to the template
+
+    # Initialize form
+    form = AssignmentUploadForm()
+
+    if request.method == "POST":
+        # Process the uploaded form data
+        form = AssignmentUploadForm(data=request.POST, files=request.FILES)  # Include files
+        if form.is_valid():
+            assignment_id = request.POST.get('assignment_id')
+            assignment = get_object_or_404(CourseAssignment, pk=assignment_id)
+
+            # Get the student who is uploading
+            student = get_object_or_404(Student, user=request.user)
+
+            # Optionally, check if student is enrolled in the course (not implemented yet)
+
+            # Save the uploaded file and link it with the assignment
+            upload = form.save(commit=False)
+            upload.assignment = assignment
+            upload.student = student  # Assuming you have a student field in AssignmentUploadFile
+            upload.upload_status = True  # Mark as uploaded
+            upload.save()
+
+        else:
+            # If form is invalid, you can return errors to the template
+            return render(request, 'course/assignment.html', {
+                'course': course,
+                'assignments': assignments,
+                'form': form,
+            })
+
+    # Render the form in the template regardless of method
     return render(request, 'course/assignment.html', {
         'course': course,
         'assignments': assignments,
-        'form':form,
+        'form': form,
     })
+
   
