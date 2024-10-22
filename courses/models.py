@@ -39,7 +39,7 @@ class QuizAnswer(models.Model):
     option_3 = models.CharField(max_length=200)
     option_4 = models.CharField(max_length=200)
     correct_answer = models.IntegerField()  # Store the index of the correct option (1-4)
-
+    question_mark=models.PositiveIntegerField(default=1)
     def __str__(self):
         return f"Question: {self.question_text} for {self.quiz.title}"
 

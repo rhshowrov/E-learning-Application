@@ -47,16 +47,25 @@
                             <span class="mr-2">Assignment Status:</span>
                             <h1 class="text-green-500 font-semibold w-auto p-1">Submitted</h1>
                         </div>
-                        <div class="my-2 text-green-300 font-semibold">Upload Date: {{ upload.submit_date }}</div>
+                        <div class="my-2 text-green-500 font-semibold">Submitted On: {{ upload.submit_date }}</div>
                         <div class="text-red-600 text-left my-2">Due Date: {{ file.due_date }}</div>
+                        
+                        <!-- Download button for the submitted assignment file -->
+                        <div class="flex justify-center my-3">
+                          <a href="{{ upload.file.url }}" download class="w-full text-center border rounded-md bg-gradient-to-r from-green-300 via-green-500 to-green-400 h-auto font-semibold p-1">
+                              Download Submitted Assignment
+                          </a>
+                      </div>
                     {% else %}
-                        <!-- If upload is not from the current student, display not submitted status -->
                         <div class="text-center font-semibold">Assignment: {{ file.assignment_number }}</div>
                         <div class="grid grid-cols-2">
                             <div>Total Marks: {{ file.total_marks }}</div>
                             <div>Your Marks: 0</div>
                         </div>
-                        <div class="my-2">Assignment Status: Not Submitted!</div>
+                        <div class="my-2 flex items-center">
+                          <span class="mr-2">Assignment Status:</span>
+                          <h1 class="text-red-500 font-semibold w-auto p-1">Not Submitted</h1>
+                      </div>
                         <div class="text-red-600 text-left my-2">Due Date: {{ file.due_date }}</div>
                         <div>
                             <form method="POST" enctype="multipart/form-data">
@@ -78,7 +87,10 @@
                     <div>Total Marks: {{ file.total_marks }}</div>
                     <div>Your Marks: 0</div>
                 </div>
-                <div class="my-2">Assignment Status: Not Submitted!</div>
+                <div class="my-2 flex items-center">
+                  <span class="mr-2">Assignment Status:</span>
+                  <h1 class="text-red-500 font-semibold w-auto p-1">Not Submitted</h1>
+              </div>
                 <div class="text-red-600 text-left my-2">Due Date: {{ file.due_date }}</div>
                 <div>
                     <form method="POST" enctype="multipart/form-data">
@@ -88,7 +100,7 @@
                             {{ form.file }}
                         </div>
                         <button type="submit" class="w-full my-3 mb-0 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
-                            Upload your Assignment
+                            Upload File
                         </button>
                     </form>
                 </div>
