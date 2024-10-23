@@ -23,8 +23,11 @@ class CourseFile(models.Model):
 class CourseQuiz(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
     title = models.CharField(max_length=30)
+    quiz_number=models.PositiveSmallIntegerField(default=0)
     total_marks = models.IntegerField()
-    time = models.TimeField()  # For total time to complete the quiz
+    duration = models.PositiveIntegerField(blank=False)
+    start_time = models.DateTimeField(blank=False)  # Field for the start time
+    end_time = models.DateTimeField(blank=False)    # Field for the end time
     publish_status=models.BooleanField(default=False)
 
     def __str__(self):

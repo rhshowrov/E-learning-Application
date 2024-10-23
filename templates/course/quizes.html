@@ -5,9 +5,66 @@
   <title>Quizes</title>
 {% endblock %}
 {% block course_content %}
+{% if quizes%}
+{% for q in quizes%}
+<div class="grid grid-cols-4 gap-1 drop-shadow-md p-1 rounded-md ">
+  <div class="col-span-3  bg-white rounded-md p-2">
+    <div class="text-center text-2xl text-black font-semibold ">
+      Quiz: {{q.quiz_number}}
+    </div>
+    <div class="text-xl my-3">
+      {{q.title}}
+    </div>
+    <div class="flex justify-between font-medium my-2">
+      <div>
+        {% if q.published_status%}
+        Quiz has been published.
+        {%else%}
+         Quiz has not been published yet!
+         {%endif%}
+      </div>
+      <div>
+        Duration: {{q.duration}} Minutes
+      </div>
+    </div>
+    <div class="flex justify-between text-red-500 font-bold mb-2">
+      <div>
+        Start Time: {{q.start_time}}
+      </div>
+      <div>
+        End Time: {{q.end_time}}
+      </div>
+      
+    </div>
+  </div>
 
-<h1>Quizes Section</h1>
+  <div class="col-span-1 bg-white rounded-md p-2">
+     <div class="text-center text-2xl text-black font-semibold mb-3">
+      Result
+     </div>
+     <div class="flex justify-between my-2">
+      <div>Your Marks: 15</div>
+      <div>Total Marks:{{q.total_marks}}</div>
+     </div>
+     <div class="flex justify-between">
+      <div>Submitted at: 10:45 PM</div>
+      <div><h1 class="text-red-500 font-normal">Submitted Late</h1></div>
 
+     </div>
+     <div>
+      <button type="submit" class="w-full my-3 mb-0 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
+        Take quiz
+    </button>
+    </div>
+  </div>
+</div>
 
+{%endfor%}
+
+{%else%}
+<div class="bg-red-400 mx-auto w-3/4 p-3 my-3 rounded-md">
+  <h1 class="font-bold text-center">No Quiz Found!</h1>
+</div>
+{%endif%}
 
 {%endblock%}
