@@ -82,3 +82,25 @@ def take_quiz(request,pk):
         'question':quiz_question
     }
     return render(request,'course/take_quiz.html',context=context)
+
+def quiz_result(request,pk):
+    quiz=get_object_or_404(CourseQuiz,pk=pk)
+    course=quiz.course
+    quiz_question=QuizAnswer.objects.filter(quiz=quiz)
+    total_score=0
+    #generating Quiz result
+    if request.method=="POST":
+        for q in quiz_question:
+           user_answer=request.POST.get(f'question_{q.id}')
+           if user_answer:
+               user_answer=int(user_answer)
+               if user_answer==q.correct_answer:
+                   total_score+= q.question_mark
+    print(f'the student total_score is:{total_score}')
+    context={
+        'quiz':quiz,
+        'course':course,
+        'question':quiz_question,
+        'score':total_score,
+    }
+    return render(request,'course/quiz_result.html',context=context)
