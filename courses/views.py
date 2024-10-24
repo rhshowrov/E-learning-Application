@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import CourseFile,Course,CourseAssignment,CourseQuiz
+from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer
 from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
 from .forms import AssignmentUploadForm
 from student.models import Student,StudentEnrolled
@@ -71,3 +71,14 @@ def quizes(request,pk):
         "course":course,
     }
     return render(request,'course/quizes.html',context=context)
+
+def take_quiz(request,pk):
+    quiz=get_object_or_404(CourseQuiz,pk=pk)
+    course=quiz.course
+    quiz_question=QuizAnswer.objects.filter(quiz=quiz)
+    context={
+        'quiz':quiz,
+        'course':course,
+        'question':quiz_question
+    }
+    return render(request,'course/take_quiz.html',context=context)

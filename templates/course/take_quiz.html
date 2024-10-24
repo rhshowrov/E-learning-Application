@@ -1,0 +1,40 @@
+{% extends 'course/courseDetails.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Take Quiz</title>
+{% endblock %}
+
+{% block course_content %}
+<div class="container w-4/5 mx-auto p-4 ">
+  <form method="POST" action="#">  <!-- Change 'your_quiz_submission_view' to your actual view name -->
+    {% csrf_token %}
+    {% for q in question %}
+    <div class="mb-4 bg-white p-3">
+      <div class="font-semibold text-lg mb-2">{{ q.question_text }}</div>
+      <div class="flex flex-col">
+        <label class="flex items-center mb-1">
+          <input type="radio" name="question_{{ forloop.counter }}" value="1" class="form-radio text-blue-600" required>
+          <span class="ml-2">{{ q.option_1 }}</span>
+        </label>
+        <label class="flex items-center mb-1">
+          <input type="radio" name="question_{{ forloop.counter }}" value="2" class="form-radio text-blue-600">
+          <span class="ml-2">{{ q.option_2 }}</span>
+        </label>
+        <label class="flex items-center mb-1">
+          <input type="radio" name="question_{{ forloop.counter }}" value="3" class="form-radio text-blue-600">
+          <span class="ml-2">{{ q.option_3 }}</span>
+        </label>
+        <label class="flex items-center mb-1">
+          <input type="radio" name="question_{{ forloop.counter }}" value="4" class="form-radio text-blue-600">
+          <span class="ml-2">{{ q.option_4 }}</span>
+        </label>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="mt-4">
+      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Submit Answers</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

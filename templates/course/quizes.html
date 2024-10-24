@@ -51,11 +51,12 @@
       <div><h1 class="text-red-500 font-normal">Submitted Late</h1></div>
 
      </div>
-     <div>
-      <button type="submit" class="w-full my-3 mb-0 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
+     <a href="{% url 'courses:take_quiz' pk=q.pk %}">
+      <div class="w-full mx-auto my-3 mb-0 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
         Take quiz
-    </button>
-    </div>
+      </div>
+    </a>
+    
   </div>
 </div>
 

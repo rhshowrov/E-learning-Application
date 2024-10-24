@@ -63,12 +63,6 @@ class CourseAssignment(models.Model):
       
 class AssignmentUploadFile(models.Model):
     assignment = models.ForeignKey(CourseAssignment, on_delete=models.CASCADE, related_name='assignment_upload_file')
-
-    # def get_student(self):
-    #     from student.models import Student
-    #     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='uploaded_assignment')
-    #     return self.student
-    
     student = models.ForeignKey('student.Student', on_delete=models.CASCADE, related_name='uploaded_assignment',null=True)
     
     file = models.FileField(upload_to='course_files/assignment_uploads/')

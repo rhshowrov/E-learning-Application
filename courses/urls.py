@@ -10,6 +10,7 @@ urlpatterns=[
   path('',views.courseContent,name='courseContent'),
   path('assignments/',views.assignment,name="assignment"),
   path('quizes/',views.quizes,name="quizes"),
+  path('take_quiz/',views.take_quiz,name="take_quiz"),
   
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
