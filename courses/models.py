@@ -46,6 +46,17 @@ class QuizAnswer(models.Model):
     def __str__(self):
         return f"Question: {self.question_text} for {self.quiz.title}"
 
+class QuizResult(models.Model):
+    quiz=models.ForeignKey(CourseQuiz,on_delete=models.CASCADE, related_name='quiz_results')
+    student = models.ForeignKey('student.Student', on_delete=models.CASCADE, related_name='student_quiz_results',)
+    obtained_marks=models.PositiveIntegerField(null=True)
+    submit_time=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ('quiz', 'student')
+    def __str__(self):
+        return f"{self.student} got {self.obtained_marks} in {self.quiz}"
+
+
 class CourseAssignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignment')
     file = models.FileField(upload_to='course_files/assignments/', blank=True)

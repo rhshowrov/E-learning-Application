@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer
+from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer,QuizResult
 from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
 from .forms import AssignmentUploadForm
 from student.models import Student,StudentEnrolled
@@ -66,9 +66,17 @@ def assignment(request, pk):
 def quizes(request,pk):
     course=get_object_or_404(Course,pk=pk)
     quizes = CourseQuiz.objects.filter(course=course)
+    student=get_object_or_404(Student,user=request.user)
+    submitted_quizes = []
+    for quiz in quizes:
+        # Check if the student has already submitted this specific quiz
+        if QuizResult.objects.filter(quiz=quiz, student=student).exists():
+            submitted_quizes.append(quiz.pk)
+    print(submitted_quizes)
     context={
         "quizes":quizes,
         "course":course,
+        'submitted_quizes': submitted_quizes,
     }
     return render(request,'course/quizes.html',context=context)
 
@@ -88,6 +96,7 @@ def quiz_result(request,pk):
     course=quiz.course
     quiz_question=QuizAnswer.objects.filter(quiz=quiz)
     total_score=0
+
     #generating Quiz result
     if request.method=="POST":
         for q in quiz_question:
@@ -96,7 +105,15 @@ def quiz_result(request,pk):
                user_answer=int(user_answer)
                if user_answer==q.correct_answer:
                    total_score+= q.question_mark
-    print(f'the student total_score is:{total_score}')
+    # Create a new QuizResult object for this student
+    QuizResult.objects.create(
+        quiz=quiz,
+        student=get_object_or_404(Student,user=request.user),
+        obtained_marks=total_score
+    )
+
+    # Print the student's total score (for debugging)
+    print(f"The student's total score is: {total_score}")               
     context={
         'quiz':quiz,
         'course':course,
