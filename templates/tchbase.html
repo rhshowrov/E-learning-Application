@@ -25,7 +25,7 @@
     <div class="nav_actionbar">
        <a class='action_box' href="#">Your Courses</a>
        <a class='action_box' href="#">Profile</a>
-       <a class='action_box' href="#">Question & Answer</a>
+       <a class='action_box' href="{% url 'qna:qna' teacher_id=id %}">Question & Answer</a>
        <a class='action_box' href="#">Chat</a>
        <a class='action_box' href="{%url 'user_handle:userLogout'%}">Log Out</a>
 

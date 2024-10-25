@@ -125,8 +125,13 @@ def quiz_result(request,pk):
 
 def people(request,pk):
     course=get_object_or_404(Course,pk=pk)
-    teacher_obj=get_object_or_404(TeacherEnrolled,course=course)
-    teacher=teacher_obj.teacher
+    #getting assigned teacher
+    teacher_obj = TeacherEnrolled.objects.filter(course=course).first()
+    if teacher_obj is not None:
+      teacher=teacher_obj.teacher
+    else:
+        teacher=False
+    #getting all Student who are enrolled in a course
     students=StudentEnrolled.objects.filter(course=course)
     context={
         'teacher':teacher,

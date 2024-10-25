@@ -3,7 +3,6 @@ from student.models import Student
 from teacher.models import TeacherEnrolled
 # Create your views here.
 def stdHomePage(request,student_id):
-  
   student=Student.objects.get(user=request.user)
   enrolled_courses=student.student_enrollments.all()
   course_data=[]

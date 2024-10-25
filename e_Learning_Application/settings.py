@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'student',
     'courses',
     'teacher',
+    'qna',
 ]
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
@@ -77,7 +78,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 # custom context processor
-                'student.context_processors.profile_context',
+                'e_Learning_Application.context_processors.profile_context',
             ],
         },
     },

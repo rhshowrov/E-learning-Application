@@ -25,6 +25,7 @@ urlpatterns = [
     path('student/<int:student_id>',include('student.urls')),
     path('teacher/<int:teacher_id>/',include('teacher.urls')),\
     path('course/<int:pk>/',include('courses.urls')),
+    path('qna/',include('qna.urls')),
     
     path("__reload__/", include("django_browser_reload.urls")),
 ]

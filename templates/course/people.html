@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block course_content %}
-
+{%if teacher%}
 <div class="flex flex-col w-3/4 mx-auto rounded-md bg-white my-2 p-2"> 
   <div class="bg-blue-400 font-semibold text-xl w-28 text-center rounded-tl-lg my-2 p-1"> Teacher</div>
 <div class="bg-green-100 rounded-md p-2 font-medium flex flex-row justify-between">
@@ -15,17 +15,28 @@
   <a class="w-1/4" href="mailto:{{ teacher.user.email }}">{{teacher.user.email}}</a>
 </div>
 </div>
-
+{%else%}
+<div class="bg-red-500 mx-auto w-3/4 p-3 my-3 rounded-md">
+  <h1 class="font-bold text-center">Teacher has not been assigned yet!!</h1>
+</div>
+{%endif%}
+{%if students%}
 <div class="flex flex-col w-3/4 mx-auto rounded-md bg-white my-2 p-2">
   <div class="bg-green-400 font-semibold text-xl w-28 text-center rounded-tl-lg my-2 p-1"> Students</div>
-  {% for s in students%}
+  <!-- Traversing each Student and getting info -->
+  {% for s in students%} 
   <div class="bg-green-100 rounded-md p-2 font-medium flex flex-row justify-between my-1">
     <div class="w-1/2 ">{{s.student.fullname}}</div>
     <div class="w-1/4">{{s.student.student_id}}</div>
-    <a class="w-1/4" href="mailto:{{ s.student.user.email }}">{{s.student.user.email}}</a>
+    <a class="w-1/4" href="mailto:{{ s.student.user.email }}">
+      <div>{{s.student.user.email}}</div></a>
   </div>
   {%endfor%}
 </div>
-
+{%else%}
+<div class="bg-red-500 mx-auto w-3/4 p-3 my-3 rounded-md">
+  <h1 class="font-bold text-center">No Student Found !!</h1>
+</div>
+{%endif%}
 
 {%endblock%}

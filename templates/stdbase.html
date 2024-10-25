@@ -26,9 +26,9 @@
     <h3>{{profile.custom_id}}</h3>
     </div>
     <div class="nav_actionbar">
-       <a class='action_box' href="#">Your Courses</a>
+       <a class='action_box' href="{% url 'student:stdHomePage' student_id=id %}">Your Courses</a>
        <a class='action_box' href="#">Profile</a>
-       <a class='action_box' href="#">Question & Answer</a>
+       <a class='action_box' href="{% url 'qna:qna' %}">Question & Answer</a>
        <a class='action_box' href="#">Chat</a>
        <a class='action_box' href="{%url 'user_handle:userLogout'%}">Log Out</a>
 
