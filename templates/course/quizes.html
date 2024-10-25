@@ -1,6 +1,7 @@
 {% extends 'course/courseDetails.html' %}
 {% load static %}
-{%load course_filters %}
+{% load course_filters %}
+
 {% block title %}
 <title>Quizzes</title>
 {% endblock %}
@@ -8,7 +9,7 @@
 {% block course_content %}
 {% if quizes %}
     {% for q in quizes %}
-    <div class="grid grid-cols-4 gap-1 drop-shadow-md p-1 rounded-md ">
+    <div class="grid grid-cols-4 gap-1 drop-shadow-md p-1 rounded-md">
         <div class="col-span-3 bg-white rounded-md p-2 flex flex-col">
             <div class="text-center text-2xl text-black font-semibold">
                 Quiz: {{ q.quiz_number }}
@@ -18,7 +19,7 @@
             </div>
             <div class="flex justify-between font-medium my-2">
                 <div>
-                    {% if q.published_status %}
+                    {% if q.publish_status %}
                     Quiz has been published.
                     {% else %}
                     Quiz has not been published yet!
@@ -38,7 +39,7 @@
             </div>
         </div>
 
-        <div class="col-span-1 bg-white rounded-md p-2">
+        <div class="col-span-1 bg-white rounded-md p-2 flex flex-col justify-between h-full">
             <div class="text-center text-2xl text-black font-semibold mb-3">
                 Result
             </div>
@@ -53,18 +54,17 @@
                             <div class="my-2">Submitted at: {{ r.submit_time }}</div>
                             <div>
                                 {% if r.submit_time > q.end_time %}
-                                <h1 class="text-red-500 font-bold text-center">
-                                  {% with late_minutes=r.submit_time|time_difference:q.end_time %}
-                                      {% if late_minutes > 0 %}
-                                          {{ late_minutes|to_int }} minutes late
-                                      {% else %}
-                                          On time
-                                      {% endif %}
-                                  {% endwith %}
-                              </h1>
-                                    
+                                    <h1 class="text-red-500 font-bold text-center">
+                                        {% with late_minutes=r.submit_time|time_difference:q.end_time %}
+                                            {% if late_minutes > 0 %}
+                                                {{ late_minutes|to_int }} minutes late
+                                            {% else %}
+                                                On time
+                                            {% endif %}
+                                        {% endwith %}
+                                    </h1>
                                 {% else %}
-                                    <h1 class="text-green-500 font-normal">Submitted On Time</h1>
+                                    <h1 class="text-green-500 font-bold text-center">Submitted On Time</h1>
                                 {% endif %}
                             </div>
                         </div>
@@ -74,16 +74,18 @@
                     {% endif %}
                 {% endfor %}
             {% else %}
-                <a href="{% url 'courses:take_quiz' pk=q.pk %}">
-                    <div class="w-full mx-auto my-3 mb-0 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
-                        Take quiz
-                    </div>
-                </a>
                 <div class="text-center text-sm text-gray-600">
                     Total Marks: {{ q.total_marks }}
                 </div>
                 <div class="text-center text-sm text-gray-600">
-                    Due Date: {{ q.due_date }}
+                    Due Date: {{ q.end_time }}
+                </div>
+                <div class="mt-auto">
+                    <a href="{% url 'courses:take_quiz' pk=q.pk %}">
+                        <div class="w-full mx-auto my-3 mb-0 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
+                            Take quiz
+                        </div>
+                    </a>
                 </div>
             {% endif %}
         </div>
@@ -95,5 +97,6 @@
     </div>
 {% endif %}
 {% endblock %}
+
 
 

@@ -31,7 +31,7 @@ class CourseQuiz(models.Model):
     publish_status=models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Quiz: {self.title} for {self.course.name}"
+        return f"Quiz: {self.quiz_number} for {self.course.name}"
 
 
 class QuizAnswer(models.Model):

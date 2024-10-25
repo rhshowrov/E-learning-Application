@@ -12,6 +12,7 @@ urlpatterns=[
   path('quizes/',views.quizes,name="quizes"),
   path('take_quiz/',views.take_quiz,name="take_quiz"),
   path('quiz_result/',views.quiz_result,name="quiz_result"),
+  path('people/',views.people,name='people')
   
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

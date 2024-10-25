@@ -3,6 +3,7 @@ from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer,Qui
 from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
 from .forms import AssignmentUploadForm
 from student.models import Student,StudentEnrolled
+from teacher.models import Teacher,TeacherEnrolled
 # Create your views here.
 def courseContent(request,pk):
   course=get_object_or_404(Course, pk=pk)
@@ -121,3 +122,15 @@ def quiz_result(request,pk):
         'score':total_score,
     }
     return render(request,'course/quiz_result.html',context=context)
+
+def people(request,pk):
+    course=get_object_or_404(Course,pk=pk)
+    teacher_obj=get_object_or_404(TeacherEnrolled,course=course)
+    teacher=teacher_obj.teacher
+    students=StudentEnrolled.objects.filter(course=course)
+    context={
+        'teacher':teacher,
+        'students':students,
+        'course':course,
+    }
+    return render(request,'course/people.html',context=context)
