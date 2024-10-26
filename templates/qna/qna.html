@@ -4,9 +4,9 @@
   <title>Question & Answer</title>
 {%endblock%}
 {%block content%}
-<div class="container mx-auto bg-white rounded-md drop-shadow-lg p-2">
+<div class="container mx-auto max-w-full bg-white rounded-md drop-shadow-lg p-2">
 <!-- nav section -->
- <div class="grid grid-cols-7 grid-flow-row mx-auto h-16 rounded-lg flex-row bg-white drop-shadow-lg">
+ <div class="grid fixed grid-cols-7 grid-flow-row mx-auto h-16 rounded-lg flex-row bg-white drop-shadow-lg">
    <div class="col-span-1">
    </div>
    <div class=" col-span-2 my-auto">
@@ -27,5 +27,35 @@
     <a href="#"  class=" hover:border-b-2 hover:border-cyan-400 border-transparent">Create Post</a>
    </div>
  </div>
+{%block qna%}
+<!-- QNA BLOCK -->
+<div class="w-4/5 bg-white mx-auto drop-shadow-lg mt-2">
+  <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg">
+     <!-- card -->
+      <div class="grid  bg-white grid-flow-row grid-cols-4">
+        <div class="col-span-1 p-2">image</div>
+        <div class="col-span-3">
+          <h1>Title</h1>
+          <div class="flex flex-row ">
+            <h1>username</h1>
+            <h1>Publish Date</h1>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-2 ">
+        Qna Text
+      </div>
+      <div class="bg-white  p-2">
+        Qna Image 
+      </div>
+      <div class="flex p-2 bg-white flex-row justify-between">
+        <div>Like</div>
+        <div>Reply</div>
+      </div>
+  </div>
+</div>
+{%endblock%}
+
+
 </div>
 {%endblock%}
