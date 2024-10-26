@@ -4,5 +4,28 @@
   <title>Question & Answer</title>
 {%endblock%}
 {%block content%}
-<h1>hello</h1>
+<div class="container mx-auto bg-white rounded-md drop-shadow-lg p-2">
+<!-- nav section -->
+ <div class="grid grid-cols-7 grid-flow-row mx-auto h-16 rounded-lg flex-row bg-white drop-shadow-lg">
+   <div class="col-span-1">
+   </div>
+   <div class=" col-span-2 my-auto">
+    <input class="rounded-2xl w-full bg-cyan-100" type="text" name="qna_search"  placeholder="Search" id="qna_search">
+   </div>
+   <div class="my-auto ml-0">
+    <a href="#" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-2xl  hover:bg-green-600 transition duration-200 ease-in-out">
+        Search
+    </a>
+   </div>
+   <div class="py-1 my-auto font-semibold">
+    <a href="#" class=" hover:border-b-2 hover:border-cyan-400 border-transparent transition duration-200 ease-in-out"> Your Post</a>
+   </div>
+   <div class="py-1 my-auto font-semibold">
+    <a href="#" class=" hover:border-b-2 hover:border-cyan-400 border-transparent">Notification</a>
+   </div>
+   <div class="py-1 my-auto font-semibold">
+    <a href="#"  class=" hover:border-b-2 hover:border-cyan-400 border-transparent">Create Post</a>
+   </div>
+ </div>
+</div>
 {%endblock%}
