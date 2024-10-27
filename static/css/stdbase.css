@@ -12,14 +12,13 @@ body{
   align-items: center;
   height: 100vh;
   width: 15vw;
-  background-color:whitesmoke;
+  background-color:white;
   border-radius: 5px;
 }
 .user_info{
   margin-top: 10px;
   margin-bottom: 30px;
   border-radius: 15px;
-
 }
 .user_info h3{
   color: rgb(0, 1, 1);
@@ -50,11 +49,8 @@ border-radius: 15px;
     background-color: auto;
     width: 100%;
     height: 100vh;
-    background-color: rgb(241, 228, 239);
-    border-radius: 10px;
-    border:1px solid rgb(183, 247, 222);
-    box-shadow: 0 0 1px 1px rgb(183, 247, 222);
-    
+    background-color: white;
+    border-radius: 10px; 
 }
 .nav_actionbar a{
   height: 30px;

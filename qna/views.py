@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from .models import QNA
+from .models import QNA,QnaReply
 # Create your views here.
 def qna(request):      
   qnas=QNA.objects.all()
@@ -11,9 +11,10 @@ def qna(request):
 
 def qna_details(request,slug):
       qna=get_object_or_404(QNA,qna_slug=slug)
-      print(qna)
+      replies=QnaReply.objects.filter(qna_object=qna)
       context={
             'slug':slug,
+            'replies':replies,
             'q':qna,
       }
       return render(request,'qna/qna_details.html',context=context)

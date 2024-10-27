@@ -25,4 +25,13 @@ class QNA(models.Model):
     def __str__(self):
         return self.title
 
-      
+class QnaReply(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='qna_user')
+    qna_object=models.ForeignKey(QNA,on_delete=models.CASCADE,related_name='replies')
+    reply_text=models.TextField(blank=False)
+    reply_date=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.user} Reply on {self.qna_object.title}"
+
+

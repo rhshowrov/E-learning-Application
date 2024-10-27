@@ -4,11 +4,11 @@
 <title>Question & Answer</title>
 {% endblock %}
 {% block content %}
-<div class="container mx-auto max-w-full bg-white rounded-md drop-shadow-lg p-2">
+<div class="container mx-auto max-w-full bg-white rounded-md drop-shadow-md p-2">
   <!-- nav section -->
-  <div class="grid fixed top-0 left-0 right-0 grid-cols-7 grid-flow-row h-16 bg-white drop-shadow-lg z-50">
-    <div class="col-span-1"></div>
-    <div class="col-span-2 my-auto">
+  <div class="grid fixed top-0 left-0 right-0 grid-cols-10 grid-flow-row h-16 bg-white drop-shadow-lg z-50">
+    <div class="col-span-3"></div>
+    <div class="col-span-3 my-auto">
       <input class="rounded-2xl w-full bg-cyan-100" type="text" name="qna_search" placeholder="Search" id="qna_search">
     </div>
     <div class="my-auto ml-0">
@@ -32,7 +32,7 @@
 
   {% block qna %}
   <!-- Add top padding to the qna section to avoid overlap with the fixed nav -->
-  <div class="w-4/5 bg-white mx-auto drop-shadow-lg pt-20">
+  <div class="w-4/5 bg-white mx-auto  pt-20">
     {% for q in qnas %}
     <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
       <!-- card -->

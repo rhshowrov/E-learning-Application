@@ -4,7 +4,7 @@
 <title>QNA Details</title>
 {% endblock %}
 {% block qna %}
-<div class="w-4/5 bg-white mx-auto drop-shadow-lg mt-20">
+<div class="w-4/5 bg-white mx-auto mt-20 mb-0">
   <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
     <!-- card -->
     <div class="grid bg-white grid-flow-row grid-cols-[80px_1fr] gap-4">
@@ -17,22 +17,22 @@
         <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}"
           alt="Teacher profile image">
         {% else %}
-        <img class="h-16 w-16 mb-1 rounded-full" src="path/to/default_profile_image.jpg" alt="Default profile image">
+        <img class="h-16 w-16 mb-1 rounded-full" src="{% static 'path/to/default_profile_image.jpg' %}" alt="Default profile image">
         {% endif %}
       </div>
 
       <!-- Column 2: Title and User Info -->
       <div class="flex flex-col">
         <h1 class="font-semibold text-lg">{{ q.title }}</h1>
-        <div class="flex flex-row space-x-4">
-          <h1>{{ q.author.username }}</h1>
-          <h1>{{ q.publish_date }}</h1>
+        <div class="flex flex-row space-x-4 text-gray-600">
+          <span>{{ q.author.username }}</span>
+          <span>{{ q.publish_date }}</span>
         </div>
       </div>
     </div>
 
-    <hr>
-    <div class="bg-white p-2">
+    <hr class="my-2">
+    <div class="bg-white p-2 text-gray-700">
       {{ q.qna_text|linebreaks }}
     </div>
     {% if q.qna_img %}
@@ -40,43 +40,53 @@
       <img class="mx-auto" src="{{ q.qna_img.url }}" alt="QNA Image">
     </div>
     {% endif %}
-    <hr>
-    <div class="flex p-2 bg-white flex-row justify-between">
+    <hr class="my-2">
+    <div class="flex p-2 bg-white flex-row justify-between text-gray-600">
       <div>Like</div>
     </div>
   </div>
+
   <!-- Reply section -->
-  <div class="flex flex-row w-3/4 mx-auto p-3 ">
+  <div class="flex flex-row w-3/4 mx-auto p-3">
     <div class="w-16 h-16">
       <img class="rounded-full" src="{{profile.profile_pic.url}}" alt="user">
     </div>
-    <div class="grid grid-rows-2 w-full ml-2 ">
-      <input class="rounded-full mb-3" type="text" name="reply_text" placeholder="Add a reply">
-      <div class="justify-self-end"><a class="bg-sky-500 p-2 rounded-xl" href="#">Add Reply</a></div>
+    <div class="grid grid-rows-2 w-full ml-2">
+      <input class="rounded-full mb-3 p-2 border border-gray-300" type="text" name="reply_text" placeholder="Add a reply">
+      <div class="justify-self-end"><a class="bg-sky-500 p-2 rounded-xl text-white" href="#">Add Reply</a></div>
     </div>
-
   </div>
-  <div class="flex flex-col w-3/4 mx-auto  p-3 rounded-lg m-3">
-    <div class="bg-blue-400 font-semibold text-sm w-28 text-center rounded-tl-lg  p-1"> Replies</div>
+
+  <div class="flex flex-col w-3/4 mx-auto rounded-lg m-3">
+    <div class="bg-blue-400 font-semibold text-xl w-28 text-center rounded-tl-lg p-1">{{ replies.count }} Replies</div>
     <hr>
     <!-- Reply card -->
-    <div class="grid grid-cols-7 grid-rows-2">
-      <div class="row-span-2 w-16 h-16">
-        Image
-      </div>
-      <div>
-        @username
-      </div>
-      <div class="col-span-5">
-        Date
-      </div>
-      <div class="col-span-6 bg-red-500 h-auto">
-        Comment Text
+    {% for r in replies %}
+    <div class="grid grid-cols-[80px_1fr] mb-3 bg-white drop-shadow-md rounded-md p-3">
+      <!-- Profile Image -->
+      <div class="w-16 h-16">
+        {% if r.user.student_profile %}
+          <img class="rounded-full h-16 w-16" src="{{ r.user.student_profile.profile_pic.url }}" alt="reply-user">
+        {% elif r.user.teacher_profile %}
+          <img class="rounded-full h-16 w-16" src="{{ r.user.teacher_profile.profile_pic.url }}" alt="reply-user">
+        {% else %}
+          <img class="h-16 w-16 rounded-full" src="{% static 'path/to/default_profile_image.jpg' %}" alt="Default profile image">
+        {% endif %}
       </div>
 
+      <!-- Reply Content -->
+      <div class="flex flex-col">
+        <div class="flex items-center space-x-2 font-normal">
+          <span class="font-medium">@{{ r.user.username }}</span>
+          <span class="text-sm">{{ r.reply_date }}</span>
+        </div>
+        <div class="mt-1 font-medium">
+          <hr>
+          {{ r.reply_text }}
+        </div>
+      </div>
     </div>
+    {% endfor %}
   </div>
-
 </div>
-</div>
-{%endblock%}
+{% endblock %}
