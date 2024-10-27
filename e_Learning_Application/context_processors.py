@@ -1,22 +1,37 @@
 from student.models import Student
 from teacher.models import Teacher
 
+from student.models import Student
+from teacher.models import Teacher
+
 def profile_context(request):
-    # Ensure the user is authenticated before trying to get their profile
+    context = {
+        'profile': None,
+        'is_student': False,
+        'is_teacher': False,
+        'base_template': "default.html"  # Default template if unauthenticated or no profile
+    }
+    
+    # Only proceed if user is authenticated
     if request.user.is_authenticated:
-        # First, try to get the student's profile
-        try:
-            student_profile = Student.objects.get(user=request.user)
-            return {'profile': student_profile, 'is_student': True, 'is_teacher': False,'id':student_profile.student_id}
-        except Student.DoesNotExist:
-            pass  # If the student profile does not exist, proceed to check for teacher
+        # Check if the user has a Student profile
+        student_profile = getattr(request.user, 'student_profile', None)
+        teacher_profile = getattr(request.user, 'teacher_profile', None)
+        
+        if student_profile:
+            context.update({
+                'profile': student_profile,
+                'is_student': True,
+                'id': student_profile.student_id,
+                'base_template': "stdbase.html"
+            })
+        elif teacher_profile:
+            context.update({
+                'profile': teacher_profile,
+                'is_teacher': True,
+                'id': teacher_profile.teacher_id,
+                'base_template': "tchbase.html"
+            })
+    
+    return context
 
-        # Next, try to get the teacher's profile
-        try:
-            teacher_profile = Teacher.objects.get(user=request.user)
-            return {'profile': teacher_profile, 'is_student': False, 'is_teacher': True,'id':teacher_profile.teacher_id}
-        except Teacher.DoesNotExist:
-            pass  # If neither profile exists, an empty context will be returned
-
-    # If the user is not authenticated or has no profile, return an empty context
-    return {'profile': None, 'is_student': False, 'is_teacher': False}

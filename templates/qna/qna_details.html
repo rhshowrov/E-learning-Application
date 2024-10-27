@@ -1,0 +1,82 @@
+{% extends 'qna/qna.html' %}
+{% load static %}
+{% block title %}
+<title>QNA Details</title>
+{% endblock %}
+{% block qna %}
+<div class="w-4/5 bg-white mx-auto drop-shadow-lg mt-20">
+  <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
+    <!-- card -->
+    <div class="grid bg-white grid-flow-row grid-cols-[80px_1fr] gap-4">
+      <!-- Column 1: Profile Image -->
+      <div class="flex items-center">
+        {% if q.author.student_profile %}
+        <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}"
+          alt="Student profile image">
+        {% elif q.author.teacher_profile %}
+        <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}"
+          alt="Teacher profile image">
+        {% else %}
+        <img class="h-16 w-16 mb-1 rounded-full" src="path/to/default_profile_image.jpg" alt="Default profile image">
+        {% endif %}
+      </div>
+
+      <!-- Column 2: Title and User Info -->
+      <div class="flex flex-col">
+        <h1 class="font-semibold text-lg">{{ q.title }}</h1>
+        <div class="flex flex-row space-x-4">
+          <h1>{{ q.author.username }}</h1>
+          <h1>{{ q.publish_date }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="bg-white p-2">
+      {{ q.qna_text|linebreaks }}
+    </div>
+    {% if q.qna_img %}
+    <div class="bg-white p-2">
+      <img class="mx-auto" src="{{ q.qna_img.url }}" alt="QNA Image">
+    </div>
+    {% endif %}
+    <hr>
+    <div class="flex p-2 bg-white flex-row justify-between">
+      <div>Like</div>
+    </div>
+  </div>
+  <!-- Reply section -->
+  <div class="flex flex-row w-3/4 mx-auto p-3 ">
+    <div class="w-16 h-16">
+      <img class="rounded-full" src="{{profile.profile_pic.url}}" alt="user">
+    </div>
+    <div class="grid grid-rows-2 w-full ml-2 ">
+      <input class="rounded-full mb-3" type="text" name="reply_text" placeholder="Add a reply">
+      <div class="justify-self-end"><a class="bg-sky-500 p-2 rounded-xl" href="#">Add Reply</a></div>
+    </div>
+
+  </div>
+  <div class="flex flex-col w-3/4 mx-auto  p-3 rounded-lg m-3">
+    <div class="bg-blue-400 font-semibold text-sm w-28 text-center rounded-tl-lg  p-1"> Replies</div>
+    <hr>
+    <!-- Reply card -->
+    <div class="grid grid-cols-7 grid-rows-2">
+      <div class="row-span-2 w-16 h-16">
+        Image
+      </div>
+      <div>
+        @username
+      </div>
+      <div class="col-span-5">
+        Date
+      </div>
+      <div class="col-span-6 bg-red-500 h-auto">
+        Comment Text
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+{%endblock%}
