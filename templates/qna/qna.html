@@ -1,26 +1,35 @@
 {% extends base_template %}
 {% load static %}
+
 {% block title %}
 <title>Question & Answer</title>
 {% endblock %}
+
 {% block content %}
 <div class="container mx-auto max-w-full bg-white rounded-md drop-shadow-md p-2">
-  <!-- nav section -->
+  <!-- Navigation Section -->
   <div class="grid fixed top-0 left-0 right-0 grid-cols-10 grid-flow-row h-16 bg-white drop-shadow-lg z-50">
     <div class="col-span-3"></div>
     <div class="col-span-3 my-auto">
-      <input class="rounded-2xl w-full bg-cyan-100" type="text" name="qna_search" placeholder="Search" id="qna_search">
+      <form action="{% url 'qna:qna' %}" method="GET" class="flex items-center">
+        <input
+          class="rounded-2xl w-full bg-cyan-100 px-4 py-2"
+          type="text"
+          name="q"
+          placeholder="Search"
+          id="qna_search"
+        >
+        <button
+          type="submit"
+          class="bg-green-500 text-white font-semibold py-2 px-4 rounded-2xl hover:bg-sky-600 transition duration-200 ease-in-out"
+        >
+          Search
+        </button>
+      </form>
     </div>
-    <div class="my-auto ml-0">
-      <a href="#"
-        class="bg-green-500 text-white font-semibold py-2 px-4 rounded-2xl hover:bg-green-600 transition duration-200 ease-in-out">
-        Search
-      </a>
-    </div>
+    <div></div>
     <div class="py-1 my-auto font-semibold">
-      <a href="#"
-        class="hover:border-b-2 hover:border-cyan-400 border-transparent transition duration-200 ease-in-out">Your
-        Post</a>
+      <a href="#" class="hover:border-b-2 hover:border-cyan-400 border-transparent transition duration-200 ease-in-out">Your Post</a>
     </div>
     <div class="py-1 my-auto font-semibold">
       <a href="#" class="hover:border-b-2 hover:border-cyan-400 border-transparent">Notification</a>
@@ -31,51 +40,57 @@
   </div>
 
   {% block qna %}
-  <!-- Add top padding to the qna section to avoid overlap with the fixed nav -->
-  <div class="w-4/5 bg-white mx-auto  pt-20">
-    {% for q in qnas %}
-    <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
-      <!-- card -->
-      <div class="grid bg-white grid-flow-row grid-cols-[80px_1fr] gap-4">
-        <!-- Column 1: Profile Image -->
-        <div class="flex items-center">
-          {% if q.author.student_profile %}
-          <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}"
-            alt="Student profile image">
-          {% elif q.author.teacher_profile %}
-          <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}"
-            alt="Teacher profile image">
-          {% else %}
-          <img class="h-16 w-16 mb-1 rounded-full" src="path/to/default_profile_image.jpg" alt="Default profile image">
-          {% endif %}
-        </div>
+  <!-- Q&A Section with Padding -->
+  <div class="w-4/5 bg-white mx-auto pt-20">
+    {% if qnas.exists %}
+      {% for q in qnas %}
+      <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
+        <!-- Card -->
+        <div class="grid bg-white grid-flow-row grid-cols-[80px_1fr] gap-4">
+          <!-- Column 1: Profile Image -->
+          <div class="flex items-center">
+            {% if q.author.student_profile %}
+            <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}" alt="Student profile image">
+            {% elif q.author.teacher_profile %}
+            <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}" alt="Teacher profile image">
+            {% else %}
+            <img class="h-16 w-16 mb-1 rounded-full" src="path/to/default_profile_image.jpg" alt="Default profile image">
+            {% endif %}
+          </div>
 
-        <!-- Column 2: Title and User Info -->
-        <div class="flex flex-col">
-          <a href="{%url 'qna:qna_details' slug=q.qna_slug %}"><h1 class="font-semibold text-lg">{{ q.title }}</h1></a>
-          <div class="flex flex-row space-x-4">
-            <h1>{{ q.author.username }}</h1>
-            <h1>{{ q.publish_date }}</h1>
+          <!-- Column 2: Title and User Info -->
+          <div class="flex flex-col">
+            <a href="{% url 'qna:qna_details' slug=q.qna_slug %}">
+              <h1 class="font-semibold text-lg">{{ q.title }}</h1>
+            </a>
+            <div class="flex flex-row space-x-4">
+              <h1>{{ q.author.username }}</h1>
+              <h1>{{ q.publish_date }}</h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      <hr>
-      <div class="bg-white p-2">
-        <a href="{%url 'qna:qna_details' slug=q.qna_slug %}">{{ q.qna_text|linebreaks }}</a>
+        <hr>
+        <div class="bg-white p-2">
+          <a href="{% url 'qna:qna_details' slug=q.qna_slug %}">{{ q.qna_text|linebreaks }}</a>
+        </div>
+        {% if q.qna_img %}
+        <div class="bg-white p-2">
+          <img class="mx-auto" src="{{ q.qna_img.url }}" alt="QNA Image">
+        </div>
+        {% endif %}
+        <hr>
+        <div class="flex p-2 bg-white flex-row justify-between">
+          <div>Like</div>
+          <div><a href="{% url 'qna:qna_details' slug=q.qna_slug %}">Reply</a></div>
+        </div>
       </div>
-      {% if q.qna_img %}
-      <div class="bg-white p-2">
-        <img class="mx-auto" src="{{ q.qna_img.url }}" alt="QNA Image">
+      {% endfor %}
+    {% else %}
+      <div class=" mx-auto text-center text-xl p-2 bg-red-500 font-semibold mt-0 rounded-md">
+        No Q&A Found!
       </div>
-      {% endif %}
-      <hr>
-      <div class="flex p-2 bg-white flex-row justify-between">
-        <div>Like</div>
-        <div><a href="{%url 'qna:qna_details' slug=q.qna_slug %}">Reply</a></div>
-      </div>
-    </div>
-    {% endfor %}
+    {% endif %}
   </div>
   {% endblock %}
 </div>
