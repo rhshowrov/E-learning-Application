@@ -52,8 +52,11 @@
       <img class="rounded-full" src="{{profile.profile_pic.url}}" alt="user">
     </div>
     <div class="grid grid-rows-2 w-full ml-2">
-      <input class="rounded-full mb-3 p-2 border border-gray-300" type="text" name="reply_text" placeholder="Add a reply">
-      <div class="justify-self-end"><a class="bg-sky-500 p-2 rounded-xl text-white" href="#">Add Reply</a></div>
+      <form action="{%url 'qna:qna_details' slug=slug %}" method="POST">
+        {%csrf_token%}
+      <input class="rounded-full mb-3 p-2 border w-full drop-shadow-md border-blue-400" type="text" name="reply_text" placeholder="Add a reply">
+      <div class="justify-self-end"><button type="submit" class="bg-sky-500 p-2 rounded-xl drop-shadow-md font-medium" >Add Reply</button></div>
+    </form>
     </div>
   </div>
 
