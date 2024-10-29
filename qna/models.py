@@ -35,3 +35,10 @@ class QnaReply(models.Model):
         return f"{self.user} Reply on {self.qna_object.title}"
 
 
+class QnaLike(models.Model):
+    qna=models.ForeignKey(QNA,on_delete=models.CASCADE,related_name='Liked')
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='liked_user')
+    class Meta:
+           unique_together = ('qna', 'user')
+    def __str__(self):
+        return f"{self.user} Liked {self.qna}"

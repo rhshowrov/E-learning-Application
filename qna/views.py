@@ -29,6 +29,14 @@ def qna(request):
 
 def qna_details(request, slug):
     qna = get_object_or_404(QNA, qna_slug=slug)
+    # print(qna)
+    # print(qna.Liked.all())
+    # for l in qna.Liked.all():
+    #     if l.user==request.user:
+    #         print("Show Liked Button")
+    #         break
+    #     else:
+    #         print("Show Unlike Button")
     
     if request.method == "POST":
         reply_text = request.POST.get('reply_text')
@@ -51,3 +59,5 @@ def qna_details(request, slug):
         'q': qna,
     }
     return render(request, 'qna/qna_details.html', context=context)
+
+# def liked(request,

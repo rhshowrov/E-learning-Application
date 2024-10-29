@@ -1,6 +1,6 @@
 {% extends base_template %}
 {% load static %}
-
+{%load qna_filters%}
 {% block title %}
 <title>Question & Answer</title>
 {% endblock %}
@@ -12,24 +12,19 @@
     <div class="col-span-3"></div>
     <div class="col-span-3 my-auto">
       <form action="{% url 'qna:qna' %}" method="GET" class="flex items-center">
-        <input
-          class="rounded-2xl w-full bg-cyan-100 px-4 py-2"
-          type="text"
-          name="q"
-          placeholder="Search"
-          id="qna_search"
-        >
-        <button
-          type="submit"
-          class="bg-green-500 text-white font-semibold py-2 px-4 rounded-2xl hover:bg-sky-600 transition duration-200 ease-in-out"
-        >
+        <input class="rounded-2xl w-full bg-cyan-100 px-4 py-2" type="text" name="q" placeholder="Search"
+          id="qna_search">
+        <button type="submit"
+          class="bg-green-500 text-white font-semibold py-2 px-4 rounded-2xl hover:bg-sky-600 transition duration-200 ease-in-out">
           Search
         </button>
       </form>
     </div>
     <div></div>
     <div class="py-1 my-auto font-semibold">
-      <a href="#" class="hover:border-b-2 hover:border-cyan-400 border-transparent transition duration-200 ease-in-out">Your Post</a>
+      <a href="#"
+        class="hover:border-b-2 hover:border-cyan-400 border-transparent transition duration-200 ease-in-out">Your
+        Post</a>
     </div>
     <div class="py-1 my-auto font-semibold">
       <a href="#" class="hover:border-b-2 hover:border-cyan-400 border-transparent">Notification</a>
@@ -43,53 +38,91 @@
   <!-- Q&A Section with Padding -->
   <div class="w-4/5 bg-white mx-auto pt-20">
     {% if qnas.exists %}
-      {% for q in qnas %}
-      <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
-        <!-- Card -->
-        <div class="grid bg-white grid-flow-row grid-cols-[80px_1fr] gap-4">
-          <!-- Column 1: Profile Image -->
-          <div class="flex items-center">
-            {% if q.author.student_profile %}
-            <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}" alt="Student profile image">
-            {% elif q.author.teacher_profile %}
-            <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}" alt="Teacher profile image">
-            {% else %}
-            <img class="h-16 w-16 mb-1 rounded-full" src="path/to/default_profile_image.jpg" alt="Default profile image">
-            {% endif %}
-          </div>
-
-          <!-- Column 2: Title and User Info -->
-          <div class="flex flex-col">
-            <a href="{% url 'qna:qna_details' slug=q.qna_slug %}">
-              <h1 class="font-semibold text-lg">{{ q.title }}</h1>
-            </a>
-            <div class="flex flex-row space-x-4">
-              <h1>{{ q.author.username }}</h1>
-              <h1>{{ q.publish_date }}</h1>
-            </div>
-          </div>
+    {% for q in qnas %}
+    <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
+      <!-- Card -->
+      <div class="grid bg-white grid-flow-row grid-cols-[80px_1fr] gap-4">
+        <!-- Column 1: Profile Image -->
+        <div class="flex items-center">
+          {% if q.author.student_profile %}
+          <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}"
+            alt="Student profile image">
+          {% elif q.author.teacher_profile %}
+          <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}"
+            alt="Teacher profile image">
+          {% else %}
+          <img class="h-16 w-16 mb-1 rounded-full" src="path/to/default_profile_image.jpg" alt="Default profile image">
+          {% endif %}
         </div>
 
-        <hr>
-        <div class="bg-white p-2">
-          <a href="{% url 'qna:qna_details' slug=q.qna_slug %}">{{ q.qna_text|linebreaks }}</a>
-        </div>
-        {% if q.qna_img %}
-        <div class="bg-white p-2">
-          <img class="mx-auto" src="{{ q.qna_img.url }}" alt="QNA Image">
-        </div>
-        {% endif %}
-        <hr>
-        <div class="flex p-2 bg-white flex-row justify-between">
-          <div>Like</div>
-          <div><a href="{% url 'qna:qna_details' slug=q.qna_slug %}">Reply</a></div>
+        <!-- Column 2: Title and User Info -->
+        <div class="flex flex-col">
+          <a href="{% url 'qna:qna_details' slug=q.qna_slug %}">
+            <h1 class="font-semibold text-lg">{{ q.title }}</h1>
+          </a>
+          <div class="flex flex-row space-x-4">
+            <h1>{{ q.author.username }}</h1>
+            <h1>{{ q.publish_date }}</h1>
+          </div>
         </div>
       </div>
-      {% endfor %}
+
+      <hr>
+      <div class="bg-white p-2">
+        <a href="{% url 'qna:qna_details' slug=q.qna_slug %}">{{ q.qna_text|linebreaks }}</a>
+      </div>
+      {% if q.qna_img %}
+      <div class="bg-white p-2">
+        <img class="mx-auto" src="{{ q.qna_img.url }}" alt="QNA Image">
+      </div>
+      {% endif %}
+      <hr>
+      <div class="flex p-2 bg-white flex-row justify-between">
+        <div>
+          {% if q|is_liked:user %}
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="blue" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+            </svg>
+          </a>
+          {%else%}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+          </svg>
+          </a>
+          {%endif%}
+          {% if q.Liked.all.count == 0 %}
+          <span>No Likes</span>
+          {% elif q.Liked.all.count == 1 %}
+          <span>1 Like</span> <!-- Use "Like" for singular -->
+          {% else %}
+          <span>{{ q.Liked.all.count }} Likes</span>
+          {% endif %}
+
+        </div>
+
+        <div><a href="{% url 'qna:qna_details' slug=q.qna_slug %}">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+          </svg>          
+          {% if q.replies.all.count == 0 %}
+          <span>No Reply</span>
+          {% elif q.replies.all.count == 1 %}
+          <span>1 Reply</span> <!-- Use "Like" for singular -->
+          {% else %}
+          <span>{{ q.replies.all.count }} replies</span>
+          {% endif %}</a></div>
+      </div>
+    </div>
+    {% endfor %}
     {% else %}
-      <div class=" mx-auto text-center text-xl p-2 bg-red-500 font-semibold mt-0 rounded-md">
-        No Q&A Found!
-      </div>
+    <div class=" mx-auto text-center text-xl p-2 bg-red-500 font-semibold mt-0 rounded-md">
+      No Q&A Found!
+    </div>
     {% endif %}
   </div>
   {% endblock %}
