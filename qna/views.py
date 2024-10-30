@@ -1,11 +1,12 @@
-from django.shortcuts import render,get_object_or_404,redirect
-from .models import QNA,QnaReply
+from django.shortcuts import render,get_object_or_404,redirect,HttpResponseRedirect
+from .models import QNA,QnaReply,QnaLike
 from django.db.models import Q
 # Create your views here.
 from django.db.models import Q
 from django.shortcuts import render
 from .models import QNA
-
+from django.urls import reverse
+from qna.forms import CreateQnaForm
 def qna(request):
     # Check if the request method is GET
     if request.method == "GET":
@@ -29,14 +30,6 @@ def qna(request):
 
 def qna_details(request, slug):
     qna = get_object_or_404(QNA, qna_slug=slug)
-    # print(qna)
-    # print(qna.Liked.all())
-    # for l in qna.Liked.all():
-    #     if l.user==request.user:
-    #         print("Show Liked Button")
-    #         break
-    #     else:
-    #         print("Show Unlike Button")
     
     if request.method == "POST":
         reply_text = request.POST.get('reply_text')
@@ -60,4 +53,46 @@ def qna_details(request, slug):
     }
     return render(request, 'qna/qna_details.html', context=context)
 
-# def liked(request,
+def createQna(request):
+    if request.method == "POST":
+        form = CreateQnaForm(data=request.POST)
+        if form.is_valid():
+            qna=form.save(commit=False)
+            author=request.user
+            qna.author=author
+            qna.qna_img = request.FILES['qna_img']
+            qna.save()
+            return redirect(reverse('qna:qna'))
+    else:
+        form = CreateQnaForm()
+
+    return render(request, 'qna/createqna.html', {'form': form})
+        
+
+
+
+
+
+
+
+
+
+def liked(request, pk):
+    # Fetch the QNA object
+    qna = get_object_or_404(QNA, pk=pk)
+    
+    # Check if the user has already liked this QNA using QnaLike
+    like = QnaLike.objects.filter(qna=qna, user=request.user).first()
+
+    if like:
+        # If the like exists, delete it to "unlike"
+        like.delete()
+    else:
+        # If it doesn't exist, create a new like
+        QnaLike.objects.create(qna=qna, user=request.user)
+
+    # Redirect to the QNA detail view
+    return HttpResponseRedirect(reverse('qna:qna'))
+
+
+        

@@ -30,7 +30,7 @@
       <a href="#" class="hover:border-b-2 hover:border-cyan-400 border-transparent">Notification</a>
     </div>
     <div class="py-1 my-auto font-semibold">
-      <a href="#" class="hover:border-b-2 hover:border-cyan-400 border-transparent">Create Post</a>
+      <a href="{%url 'qna:createQna' %}" class="hover:border-b-2 hover:border-cyan-400 border-transparent">Create Post</a>
     </div>
   </div>
 
@@ -80,7 +80,7 @@
       <div class="flex p-2 bg-white flex-row justify-between">
         <div>
           {% if q|is_liked:user %}
-          <a href="#">
+          <a href="{%url 'qna:liked' pk=q.pk%}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="blue" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -88,6 +88,7 @@
             </svg>
           </a>
           {%else%}
+          <a href="{%url 'qna:liked' pk=q.pk%}">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round"

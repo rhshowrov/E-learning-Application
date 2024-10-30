@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'courses',
     'teacher',
     'qna',
+    'django_viewcomponent',       
+    'django_formify',
 ]
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
@@ -70,7 +72,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [TEMPLATES_DIR],
-        "APP_DIRS": True,
+        # "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -80,6 +82,13 @@ TEMPLATES = [
                 # custom context processor
                 'e_Learning_Application.context_processors.profile_context',
             ],
+             'loaders':[(
+                'django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                    'django_viewcomponent.loaders.ComponentLoader',
+                ]
+            )],
         },
     },
 ]

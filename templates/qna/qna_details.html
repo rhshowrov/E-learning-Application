@@ -1,8 +1,10 @@
 {% extends 'qna/qna.html' %}
 {% load static %}
 {% block title %}
+{% load qna_filters %}
 <title>QNA Details</title>
 {% endblock %}
+
 {% block qna %}
 <div class="w-4/5 bg-white mx-auto mt-20 mb-0">
   <div class="flex flex-col w-3/4 mx-auto bg-white p-3 rounded-lg drop-shadow-lg m-3">
@@ -11,11 +13,9 @@
       <!-- Column 1: Profile Image -->
       <div class="flex items-center">
         {% if q.author.student_profile %}
-        <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}"
-          alt="Student profile image">
+        <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.student_profile.profile_pic.url }}" alt="Student profile image">
         {% elif q.author.teacher_profile %}
-        <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}"
-          alt="Teacher profile image">
+        <img class="h-16 w-16 mb-1 rounded-full" src="{{ q.author.teacher_profile.profile_pic.url }}" alt="Teacher profile image">
         {% else %}
         <img class="h-16 w-16 mb-1 rounded-full" src="{% static 'path/to/default_profile_image.jpg' %}" alt="Default profile image">
         {% endif %}
@@ -42,54 +42,81 @@
     {% endif %}
     <hr class="my-2">
     <div class="flex p-2 bg-white flex-row justify-between text-gray-600">
-      <div>Like</div>
-    </div>
-  </div>
-
-  <!-- Reply section -->
-  <div class="flex flex-row w-3/4 mx-auto p-3">
-    <div class="w-16 h-16">
-      <img class="rounded-full" src="{{profile.profile_pic.url}}" alt="user">
-    </div>
-    <div class="grid grid-rows-2 w-full ml-2">
-      <form action="{%url 'qna:qna_details' slug=slug %}" method="POST">
-        {%csrf_token%}
-      <input class="rounded-full mb-3 p-2 border w-full drop-shadow-md border-blue-400" type="text" name="reply_text" placeholder="Add a reply">
-      <div class="justify-self-end"><button type="submit" class="bg-sky-500 p-2 rounded-xl drop-shadow-md font-medium" >Add Reply</button></div>
-    </form>
-    </div>
-  </div>
-
-  <div class="flex flex-col w-3/4 mx-auto rounded-lg m-3">
-    <div class="bg-blue-400 font-semibold text-xl w-28 text-center rounded-tl-lg p-1">{{ replies.count }} Replies</div>
-    <hr>
-    <!-- Reply card -->
-    {% for r in replies %}
-    <div class="grid grid-cols-[80px_1fr] mb-3 bg-white drop-shadow-md rounded-md p-3">
-      <!-- Profile Image -->
-      <div class="w-16 h-16">
-        {% if r.user.student_profile %}
-          <img class="rounded-full h-16 w-16" src="{{ r.user.student_profile.profile_pic.url }}" alt="reply-user">
-        {% elif r.user.teacher_profile %}
-          <img class="rounded-full h-16 w-16" src="{{ r.user.teacher_profile.profile_pic.url }}" alt="reply-user">
+      <div>
+        {% if q|is_liked:user %}
+          <a href="{% url 'qna:liked' pk=q.pk %}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="blue" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+            </svg>
+          </a>
         {% else %}
-          <img class="h-16 w-16 rounded-full" src="{% static 'path/to/default_profile_image.jpg' %}" alt="Default profile image">
+          <a href="{% url 'qna:liked' pk=q.pk %}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if q.Liked.all.count == 0 %}
+          <span>No Likes</span>
+        {% elif q.Liked.all.count == 1 %}
+          <span>1 Like</span> <!-- Use "Like" for singular -->
+        {% else %}
+          <span>{{ q.Liked.all.count }} Likes</span>
         {% endif %}
       </div>
+    </div>
+  </div>
 
-      <!-- Reply Content -->
-      <div class="flex flex-col">
-        <div class="flex items-center space-x-2 font-normal">
-          <span class="font-medium">@{{ r.user.username }}</span>
-          <span class="text-sm">{{ r.reply_date }}</span>
-        </div>
-        <div class="mt-1 font-medium">
-          <hr>
-          {{ r.reply_text }}
-        </div>
+  <!-- Reply section, wrapped inside the card container -->
+    <div class="flex flex-row w-3/4 mx-auto p-2">
+      <div class="w-16 h-16">
+        <img class="rounded-full" src="{{profile.profile_pic.url}}" alt="user">
+      </div>
+      <div class="grid grid-rows-2 w-full ml-2">
+        <form action="{%url 'qna:qna_details' slug=slug %}" method="POST">
+          {%csrf_token%}
+        <input class="rounded-full mb-1 p-2 border w-full drop-shadow-md border-blue-400" type="text" name="reply_text" placeholder="Add a reply">
+        <div class="justify-self-end"><button type="submit" class="bg-sky-500 p-2 rounded-xl drop-shadow-md font-medium" >Add Reply</button></div>
+      </form>
       </div>
     </div>
-    {% endfor %}
+  
+    <div class="flex flex-col w-3/4 mx-auto rounded-lg ">
+      <div class="bg-blue-400 font-semibold text-xl w-28 text-center rounded-tl-lg p-1">{{ replies.count }} Replies</div>
+      <hr>
+      <!-- Reply card -->
+      {% for r in replies %}
+      <div class="grid grid-cols-[80px_1fr] mb-3 bg-white drop-shadow-md rounded-md p-3">
+        <!-- Profile Image -->
+        <div class="w-16 h-16">
+          {% if r.user.student_profile %}
+            <img class="rounded-full h-16 w-16" src="{{ r.user.student_profile.profile_pic.url }}" alt="reply-user">
+          {% elif r.user.teacher_profile %}
+            <img class="rounded-full h-16 w-16" src="{{ r.user.teacher_profile.profile_pic.url }}" alt="reply-user">
+          {% else %}
+            <img class="h-16 w-16 rounded-full" src="{% static 'path/to/default_profile_image.jpg' %}" alt="Default profile image">
+          {% endif %}
+        </div>
+  
+        <!-- Reply Content -->
+        <div class="flex flex-col">
+          <div class="flex items-center space-x-2 font-normal">
+            <span class="font-medium">@{{ r.user.username }}</span>
+            <span class="text-sm">{{ r.reply_date }}</span>
+          </div>
+          <div class="mt-1 font-medium">
+            <hr>
+            {{ r.reply_text }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
-</div>
 {% endblock %}
+

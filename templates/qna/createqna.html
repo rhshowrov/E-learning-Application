@@ -1,0 +1,18 @@
+{% extends 'qna/qna.html' %}
+{% load static %}
+{% load formify %}
+{% load qna_filters %}
+{% block title %}
+<title>Create Qna</title>
+{% endblock %}
+{% block qna%}
+<div class="mt-20 mx-auto w-4/5 p-3 bg-white drop-shadow-md rounded-md">
+  <form method="POST" enctype="multipart/form-data" >
+    <h1 class="text-center font-semibold text-xl drop-shadow-md">Create Your Q&A</h1>
+    <h1 class="text-center">---------------------------</h1>
+    {%csrf_token%}
+    {% render_form form %}
+    {% render_submit text='Submit' css_class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %}
+  </form>
+</div>
+{%endblock%}
