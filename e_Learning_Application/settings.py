@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'qna',
     'django_viewcomponent',       
     'django_formify',
+    'user_profile',
 ]
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
