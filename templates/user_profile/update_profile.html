@@ -1,0 +1,22 @@
+{% extends base_template %}
+{% load static %}
+{% load formify %}
+{% block title %}
+<title>Profile Update</title>
+{% endblock %}
+
+{% block content %}
+<div class="w-full mx-auto  bg-white drop-shadow-md rounded-lg">
+  <div class="w-2/4 h-2/4  mt-28 mx-auto bg-white drop-shadow-lg p-2">
+    <form method="POST" enctype="multipart/form-data"  >
+      <h1 class="text-center font-semibold text-xl text-rose-400 drop-shadow-md mb-1">Update Your Prfile:</h1>
+      <hr class="mb-3">
+      {%csrf_token%}
+      {% render_form form %}
+      {% render_submit text='Submit' css_class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %}
+    </form>
+  </div>
+ 
+
+</div>
+{%endblock%}
