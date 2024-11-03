@@ -4,7 +4,10 @@ from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
 from .forms import AssignmentUploadForm
 from student.models import Student,StudentEnrolled
 from teacher.models import Teacher,TeacherEnrolled
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required
 def courseContent(request,pk):
   course=get_object_or_404(Course, pk=pk)
   print(course)
@@ -19,7 +22,7 @@ def courseContent(request,pk):
     'course_files':course_files,
   })
   
-
+@login_required
 def assignment(request, pk):
     # Retrieve the course using get_object_or_404
     course = get_object_or_404(Course, pk=pk)
@@ -64,6 +67,7 @@ def assignment(request, pk):
         'form': form,
     })
 
+@login_required
 def quizes(request,pk):
     course=get_object_or_404(Course,pk=pk)
     quizes = CourseQuiz.objects.filter(course=course)
@@ -81,6 +85,8 @@ def quizes(request,pk):
     }
     return render(request,'course/quizes.html',context=context)
 
+
+@login_required
 def take_quiz(request,pk):
     quiz=get_object_or_404(CourseQuiz,pk=pk)
     course=quiz.course
@@ -92,6 +98,9 @@ def take_quiz(request,pk):
     }
     return render(request,'course/take_quiz.html',context=context)
 
+
+
+@login_required
 def quiz_result(request,pk):
     quiz=get_object_or_404(CourseQuiz,pk=pk)
     course=quiz.course
@@ -123,6 +132,7 @@ def quiz_result(request,pk):
     }
     return render(request,'course/quiz_result.html',context=context)
 
+@login_required
 def people(request,pk):
     course=get_object_or_404(Course,pk=pk)
     #getting assigned teacher

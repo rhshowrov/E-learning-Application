@@ -2,13 +2,17 @@ from django.shortcuts import render,redirect
 from .forms import StudentProfileUpdateForm,TeacherProfileUpdateForm
 from student.models import Student
 from teacher.models import Teacher
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
+@login_required
 def user_profile(request):
     return render(request,'user_profile/user_profile.html')
 
-
+@login_required
 def update_profile(request):
     # Check if the user has a student profile
     student = Student.objects.filter(user=request.user).first()
@@ -46,7 +50,7 @@ def update_profile(request):
     )
 
 
-class CustomPasswordChangeView(PasswordChangeView):
+class CustomPasswordChangeView(LoginRequiredMixin,PasswordChangeView):
     template_name = 'user_profile/password_change.html'
     success_url = reverse_lazy('user_profile:user_profile')
 

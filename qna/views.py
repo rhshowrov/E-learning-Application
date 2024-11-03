@@ -7,6 +7,9 @@ from django.shortcuts import render
 from .models import QNA
 from django.urls import reverse
 from qna.forms import CreateQnaForm
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def qna(request):
     # Check if the request method is GET
     if request.method == "GET":
@@ -27,7 +30,7 @@ def qna(request):
         }
         return render(request, 'qna/qna.html', context=context)
 
-
+@login_required
 def qna_details(request, slug):
     qna = get_object_or_404(QNA, qna_slug=slug)
     
@@ -53,6 +56,9 @@ def qna_details(request, slug):
     }
     return render(request, 'qna/qna_details.html', context=context)
 
+
+
+@login_required
 def createQna(request):
     if request.method == "POST":
         form = CreateQnaForm(data=request.POST)

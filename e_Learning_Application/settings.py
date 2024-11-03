@@ -151,6 +151,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_DIR = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 MEDIA_ROOT=BASE_DIR/'media'
+LOGIN_URL = '/' 
 # Expire the session when the user closes the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Set session timeout to 30 minutes (1800 seconds)

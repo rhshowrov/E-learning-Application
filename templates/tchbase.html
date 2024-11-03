@@ -1,4 +1,5 @@
 {%load static %}
+{% load static tailwind_tags %}
 {% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
@@ -12,20 +13,21 @@
   {%block title%}
   <title>Home</title>
   {%endblock%}
+  {% tailwind_css %}
 </head>
 <body>
   <div class="nav_container">
     <div class="img_container">
-      <img src="/media/{{profile.profile_pic}}" alt="USer Photo">
+      <img src="/media/{{profile.profile_pic}}" alt="User Photo">
     </div>
     <div class="user_info">
     <h3>{{profile.fullname}}</h3>
     <h3>{{profile.custom_id}}</h3>
     </div>
     <div class="nav_actionbar">
-       <a class='action_box' href="#">Your Courses</a>
-       <a class='action_box' href="#">Profile</a>
-       <a class='action_box' href="{% url 'qna:qna' teacher_id=id %}">Question & Answer</a>
+       <a class='action_box' href="{% url 'student:stdHomePage' student_id=id %}">Your Courses</a>
+       <a class='action_box' href="{%url 'user_profile:user_profile'%}">Profile</a>
+       <a class='action_box' href="{% url 'qna:qna' %}">Question & Answer</a>
        <a class='action_box' href="#">Chat</a>
        <a class='action_box' href="{%url 'user_handle:userLogout'%}">Log Out</a>
 
@@ -43,9 +45,22 @@
         <div class="card_child_1">
           <img src="/media/{{cd.course_pic}}" alt="Course Photo">
           <div class="course_info">
-            <a href="#">{{cd.course_name|range_filter}}</a>
+            <a href="{%url 'courses:courseContent' pk=cd.course_id %}">{{cd.course_name|range_filter}}</a>
             <h3>{{cd.course_code}}.{{cd.course_section}}</h3>
           </div>
+        </div>
+
+        <div class="card_child_2"> 
+          <span class="material-symbols-outlined rd">
+            assignment
+            </span>
+            <span class="material-symbols-outlined rd ">
+              quiz
+              </span>
+              <span class="material-symbols-outlined rd">
+                notifications
+                </span>
+                
         </div>
       </div>
       {%endfor%}
