@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer,QuizResult
 from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
-from .forms import AssignmentUploadForm
+from .forms import AssignmentUploadForm,UploadMaterialForm
 from student.models import Student,StudentEnrolled
 from teacher.models import Teacher,TeacherEnrolled
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 # Create your views here.
 
 @login_required
@@ -48,7 +49,7 @@ def assignment(request, pk):
             # Save the uploaded file and link it with the assignment
             upload = form.save(commit=False)
             upload.assignment = assignment
-            upload.student = student  # Assuming you have a student field in AssignmentUploadFile
+            upload.student = student  
             upload.upload_status = True  # Mark as uploaded
             upload.save()
 
@@ -149,3 +150,20 @@ def people(request,pk):
         'course':course,
     }
     return render(request,'course/people.html',context=context)
+
+
+def upload_content(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    form = UploadMaterialForm(request.POST or None, request.FILES or None)
+
+    if request.method == "POST" and form.is_valid():
+        temp = form.save(commit=False)
+        temp.course = course
+        temp.save()
+        url = reverse('courses:courseContent', kwargs={'pk': pk})
+        return HttpResponseRedirect(url)
+
+    return render(request, 'course/upload_content.html',context={
+        'form': form,
+        'course':course,
+        })

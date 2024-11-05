@@ -1,5 +1,5 @@
 from django import forms
-from courses.models import AssignmentUploadFile
+from courses.models import AssignmentUploadFile,CourseFile
 
 class AssignmentUploadForm(forms.ModelForm):
     class Meta:
@@ -12,4 +12,8 @@ class AssignmentUploadForm(forms.ModelForm):
             }),
         }
         
-  
+class UploadMaterialForm(forms.ModelForm):
+    class Meta:
+        model=CourseFile
+        fields=['title','file']
+        
