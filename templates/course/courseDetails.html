@@ -88,8 +88,8 @@
     <h1 class="font-bold text-center">No class Material Uploaded!!</h1>
   </div>
   {%if is_teacher%}
-  <div class="w-40 absolute right-2 p-2  rounded-md  bg-green-600 text-center ">
-    <a class="font-medium text-white" href="#">Upload Matrial</a>
+  <div class="w-40 absolute right-10 p-2 m-4 z-40 rounded-md  bg-sky-600 text-center ">
+    <a class="font-medium text-white" href="{% url 'courses:upload_content' pk=course.pk %}">Upload Matrial</a>
   </div>
   {%endif%}
   {%endif%}

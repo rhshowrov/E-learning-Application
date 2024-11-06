@@ -14,6 +14,8 @@ urlpatterns=[
   path('quiz_result/',views.quiz_result,name="quiz_result"),
   path('people/',views.people,name='people'),
   path('upload_content/',views.upload_content,name='upload_content'),
+  path('create_assignment/',views.createAssignment,name='create_assignment'),
+  
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

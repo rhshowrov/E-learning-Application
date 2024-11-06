@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer,QuizResult
 from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
-from .forms import AssignmentUploadForm,UploadMaterialForm
+from .forms import AssignmentUploadForm,UploadMaterialForm,CourseAssignmentForm
 from student.models import Student,StudentEnrolled
 from teacher.models import Teacher,TeacherEnrolled
 from django.contrib.auth.decorators import login_required
@@ -30,42 +30,50 @@ def assignment(request, pk):
     
     # Filter assignments by the course
     assignments = CourseAssignment.objects.filter(course=course)
+    is_student = hasattr(request.user, 'student_profile')
+    is_teacher = hasattr(request.user, 'teacher_profile')
+    if is_student:
+        # Initialize form
+        form = AssignmentUploadForm()
 
-    # Initialize form
-    form = AssignmentUploadForm()
+        if request.method == "POST":
+            # Process the uploaded form data
+            form = AssignmentUploadForm(data=request.POST, files=request.FILES)  # Include files
+            if form.is_valid():
+                assignment_id = request.POST.get('assignment_id')
+                assignment = get_object_or_404(CourseAssignment, pk=assignment_id)
 
-    if request.method == "POST":
-        # Process the uploaded form data
-        form = AssignmentUploadForm(data=request.POST, files=request.FILES)  # Include files
-        if form.is_valid():
-            assignment_id = request.POST.get('assignment_id')
-            assignment = get_object_or_404(CourseAssignment, pk=assignment_id)
+                # Get the student who is uploading
+                student = get_object_or_404(Student, user=request.user)
 
-            # Get the student who is uploading
-            student = get_object_or_404(Student, user=request.user)
+                # Optionally, check if student is enrolled in the course (not implemented yet)
 
-            # Optionally, check if student is enrolled in the course (not implemented yet)
+                # Save the uploaded file and link it with the assignment
+                upload = form.save(commit=False)
+                upload.assignment = assignment
+                upload.student = student  
+                upload.upload_status = True  # Mark as uploaded
+                upload.save()
+                return redirect('assignment', pk=pk)
 
-            # Save the uploaded file and link it with the assignment
-            upload = form.save(commit=False)
-            upload.assignment = assignment
-            upload.student = student  
-            upload.upload_status = True  # Mark as uploaded
-            upload.save()
-
-        else:
-            # If form is invalid, you can return errors to the template
-            return render(request, 'course/assignment.html', {
-                'course': course,
-                'assignments': assignments,
-                'form': form,
-            })
-
+            else:
+                # If form is invalid, you can return errors to the template
+                return render(request, 'course/assignment.html', {
+                    'course': course,
+                    'assignments': assignments,
+                    'form': form,
+                })
+    if is_teacher:
+        return render(request, 'course/assignment.html', {
+                    'course': course,
+                    'assignments': assignments,
+                })
+        
     # Render the form in the template regardless of method
     return render(request, 'course/assignment.html', {
         'course': course,
         'assignments': assignments,
-        'form': form,
+        'form': form if is_student else None,
     })
 
 @login_required
@@ -167,3 +175,22 @@ def upload_content(request, pk):
         'form': form,
         'course':course,
         })
+    
+    
+def createAssignment(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    form = CourseAssignmentForm(request.POST or None, request.FILES or None)
+
+    if request.method == "POST" and form.is_valid():
+        temp = form.save(commit=False)
+        temp.course = course
+        temp.save()
+        return HttpResponseRedirect(reverse('courses:assignment', kwargs={'pk': pk}))
+
+    # Render form if GET request or form is invalid
+    return render(request, 'course/create_assignment.html', context={
+        'form': form,
+        'course':course,
+    })   
+            
+            

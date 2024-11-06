@@ -1,5 +1,5 @@
 from django import forms
-from courses.models import AssignmentUploadFile,CourseFile
+from courses.models import AssignmentUploadFile,CourseFile,CourseAssignment
 
 class AssignmentUploadForm(forms.ModelForm):
     class Meta:
@@ -16,4 +16,16 @@ class UploadMaterialForm(forms.ModelForm):
     class Meta:
         model=CourseFile
         fields=['title','file']
-        
+
+
+class CourseAssignmentForm(forms.ModelForm):
+    class Meta:
+        model=CourseAssignment
+        fields=['assignment_text','assignment_number','due_date', 'total_marks','file']
+        widgets = {
+            'due_date': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500',
+                'placeholder': 'Select due date and time',
+            }),
+        }
