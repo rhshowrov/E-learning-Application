@@ -1,0 +1,38 @@
+{% extends 'course/courseDetails.html' %}
+{% load static %}
+{% load formify %}
+
+{% block title %}
+  <title>Create Quiz</title>
+{% endblock %}
+
+{% block course_content %}
+  {% if not quiz %}
+    <!-- Form for creating the quiz -->
+    <div class="w-1/2 mx-auto p-3 bg-green-200 m-2 rounded-lg drop-shadow-md">
+      <h2 class="font-medium text-center">Create Quiz for</h2>
+      <h2 class="font-medium text-center">{{ course.name }}</h2>
+      <br>
+      <form method="post">
+        {% csrf_token %}
+        {% render_form quiz_form %}
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        {% render_submit text='Create Quiz' name="create_quiz" css_class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %}
+      </form>
+    </div>
+  {% endif %}
+
+  {% if quiz %}
+    <!-- Once the quiz is created, show the question form -->
+    <div class="w-1/2 mx-auto p-3 bg-green-200 m-2 rounded-lg drop-shadow-md">
+      <h3>Quiz "{{ quiz.title }}" Created! Add Questions Below:</h3>
+      
+      <form method="post">
+        {% csrf_token %}
+        {% render_form question_form %}
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        {% render_submit text='Add Question' name="add_question" css_class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %}
+      </form>
+    </div>
+  {% endif %}
+{% endblock %}

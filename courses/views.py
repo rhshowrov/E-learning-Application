@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
 from .models import CourseFile,Course,CourseAssignment,CourseQuiz,QuizAnswer,QuizResult
 from django.shortcuts import get_object_or_404,HttpResponse,HttpResponseRedirect
-from .forms import AssignmentUploadForm,UploadMaterialForm,CourseAssignmentForm
+from .forms import AssignmentUploadForm,UploadMaterialForm,CourseAssignmentForm,CourseQuizForm,QuizAnswerForm
 from student.models import Student,StudentEnrolled
 from teacher.models import Teacher,TeacherEnrolled
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.db.models import Sum
 # Create your views here.
 
 @login_required
@@ -193,4 +194,57 @@ def createAssignment(request, pk):
         'course':course,
     })   
             
-            
+def tquizes(request,pk):
+    course=get_object_or_404(Course,pk=pk)
+    quizes=CourseQuiz.objects.filter(course=course)
+    return render(request,'course/tquizes.html',context={
+        'course':course,
+        'quizes':quizes,      
+    })
+
+
+def create_quiz(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    quiz_form = CourseQuizForm()
+    question_form = None
+    quiz = None
+
+    if request.method == "POST":
+        # Creating a new quiz
+        if 'create_quiz' in request.POST:
+            quiz_form = CourseQuizForm(request.POST)
+            if quiz_form.is_valid():
+                quiz = quiz_form.save(commit=False)
+                quiz.course = course
+                quiz.save()
+                question_form = QuizAnswerForm()
+
+        # Adding a question to an existing quiz
+        elif 'add_question' in request.POST:
+            question_form = QuizAnswerForm(request.POST)
+            if question_form.is_valid() and 'quiz_id' in request.POST:
+                quiz = get_object_or_404(CourseQuiz, pk=request.POST['quiz_id'])
+                total_marks = quiz.total_marks
+                current_mark = sum(q.question_mark for q in QuizAnswer.objects.filter(quiz=quiz))
+
+                if current_mark < total_marks:
+                    question = question_form.save(commit=False)
+                    question.quiz = quiz
+                    question.save()
+                    current_mark = sum(q.question_mark for q in QuizAnswer.objects.filter(quiz=quiz))
+                    if current_mark == total_marks:
+                        return HttpResponseRedirect(reverse('courses:tquizes', kwargs={'pk': pk}))
+                    
+                    question_form = QuizAnswerForm()  # Clear the form for another question
+                else:
+                    # messages.error(request, "Total marks limit reached. Cannot add more questions.")
+                    return HttpResponseRedirect(reverse('courses:tquizes', kwargs={'pk': pk}))
+
+    context = {
+        'quiz_form': quiz_form,
+        'question_form': question_form,
+        'course': course,
+        'quiz': quiz,
+    }
+    return render(request, 'course/create_quiz.html', context)
+    

@@ -1,0 +1,60 @@
+{% extends 'course/courseDetails.html' %}
+{% load static %}
+{% block title %}
+  <title>Quiz Section</title>
+{% endblock %}
+{% block course_content %}
+<div class="rounded-lg fixed right-2 m-2  w-auto p-2 bg-green-400">
+ <a class=" text-black text-center font-semibold" href="{%url 'courses:create_quiz' pk=course.pk %}">Create Quiz</a>
+</div>
+<!-- Assign Quizes  -->
+{% if quizes %}
+<div class="mt-14">
+{% for q in quizes %}
+ <div class="grid grid-cols-4 gap-1 drop-shadow-md p-1 rounded-md">
+    <div class="col-span-3 bg-white rounded-md p-2 flex flex-col">
+        <div class="text-center text-2xl text-black font-semibold">
+            Quiz: {{ q.quiz_number }}
+        </div>
+        <div class="text-xl my-3 flex-grow">
+            {{ q.title }} 
+        </div>
+        <div class="flex justify-between font-medium my-2">
+            <div>
+                {% if q.publish_status %}
+                Quiz has been published.
+                {% else %}
+                Quiz has not been published yet!
+                {% endif %}
+            </div>
+            <div>
+                Duration: {{ q.duration }} Minutes
+            </div>
+        </div>
+        <div class="flex justify-between text-red-500 font-bold mb-2">
+            <div>
+                Start Time: {{ q.start_time }}
+            </div>
+            <div>
+                End Time: {{ q.end_time }}
+            </div>
+        </div>
+    </div>
+    <div class="col-span-1 bg-white rounded-md p-2 flex flex-col">
+        <div class="text-center font-semibold my-1 ">Quiz: {{ q.quiz_number }}</div>               
+        <div class="my-2">Total Marks: {{ q.total_marks }}</div>
+        <div class="my-2">{{q.quiz_results.count}} student uploaded</div>
+        <div class="text-red-600 text-left my-2">Due Date: {{ q.end_time }}</div>
+        <div class="w-full mt-14 text-center border rounded-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-auto font-semibold p-1">
+           <a href="#"> Edit</a>
+        </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{%else%}
+<div class="bg-red-400 mx-auto w-2/5 p-1 my-1 rounded-md">
+  <h1 class="font-bold text-center">No Quizes Found!!</h1>
+</div>
+{%endif%}
+{%endblock%}

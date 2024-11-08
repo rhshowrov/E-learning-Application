@@ -18,13 +18,20 @@
         Assignment
       </div>
     </a>
-    
+    {%if is_student%}
     <a href="{% url 'courses:quizes' pk=course.pk %}">
       <div class="flex items-center justify-center text-center text-xl text-black bg-indigo-100 hover:bg-indigo-500 border rounded-md font-semibold">
         Quiz
       </div>
     </a>
-    
+    {%else%}
+    <a href="{% url 'courses:tquizes' pk=course.pk %}">
+      <div class="flex items-center justify-center text-center text-xl text-black bg-indigo-100 hover:bg-indigo-500 border rounded-md font-semibold">
+        Quiz
+      </div>
+    </a>
+    {%endif%}
+
     <a href="#">
       <div class="flex items-center justify-center text-center text-xl text-black bg-indigo-100 hover:bg-indigo-500 border rounded-md font-semibold">
         Notification

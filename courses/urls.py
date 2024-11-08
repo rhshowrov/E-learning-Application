@@ -9,12 +9,14 @@ app_name='courses'
 urlpatterns=[
   path('',views.courseContent,name='courseContent'),
   path('assignments/',views.assignment,name="assignment"),
-  path('quizes/',views.quizes,name="quizes"),
+  path('student_quizes/',views.quizes,name="quizes"),
   path('take_quiz/',views.take_quiz,name="take_quiz"),
   path('quiz_result/',views.quiz_result,name="quiz_result"),
   path('people/',views.people,name='people'),
   path('upload_content/',views.upload_content,name='upload_content'),
   path('create_assignment/',views.createAssignment,name='create_assignment'),
+  path('teacher_quizes/',views.tquizes,name="tquizes"),
+  path('teacher_quizes/create_quiz/', views.create_quiz, name='create_quiz'),
   
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

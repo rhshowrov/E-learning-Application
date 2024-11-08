@@ -63,7 +63,6 @@ class CourseAssignment(models.Model):
     assignment_text = models.TextField(default="No assignment Related text provided")
     assignment_number = models.IntegerField(default=1)
     date = models.DateField(auto_now_add=True)
-    
     # New fields
     due_date = models.DateTimeField()  # Add due date field
     total_marks = models.PositiveIntegerField(default=0)  # Total marks for the assignment
