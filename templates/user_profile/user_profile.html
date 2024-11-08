@@ -48,9 +48,15 @@
          {%endif%}
        </div>
        <hr>
+       {% if is_student%}
        <div class="mt-2">
         <span class="font-semibold text-lg text-blue-500">Current Enrolled Courses Count:</span>  {{profile.student_enrollments.count}}
        </div>
+       {%else%}
+       <div class="mt-2">
+        <span class="font-semibold text-lg text-blue-500">Current Enrolled Courses Count:</span>  {{profile.teacher_enrollments.count}}
+       </div>
+       {%endif%}
        <hr>
        {% if is_student%}
        <div class="mt-2">

@@ -160,7 +160,7 @@ def people(request,pk):
     }
     return render(request,'course/people.html',context=context)
 
-
+@login_required
 def upload_content(request, pk):
     course = get_object_or_404(Course, pk=pk)
     form = UploadMaterialForm(request.POST or None, request.FILES or None)
@@ -177,7 +177,7 @@ def upload_content(request, pk):
         'course':course,
         })
     
-    
+@login_required   
 def createAssignment(request, pk):
     course = get_object_or_404(Course, pk=pk)
     form = CourseAssignmentForm(request.POST or None, request.FILES or None)
@@ -193,7 +193,7 @@ def createAssignment(request, pk):
         'form': form,
         'course':course,
     })   
-            
+@login_required           
 def tquizes(request,pk):
     course=get_object_or_404(Course,pk=pk)
     quizes=CourseQuiz.objects.filter(course=course)
@@ -202,7 +202,7 @@ def tquizes(request,pk):
         'quizes':quizes,      
     })
 
-
+@login_required
 def create_quiz(request, pk):
     course = get_object_or_404(Course, pk=pk)
     quiz_form = CourseQuizForm()
